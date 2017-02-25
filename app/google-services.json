@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "724877184015",
+    "firebase_url": "https://epicapp-d7ba0.firebaseio.com",
+    "project_id": "epicapp-d7ba0",
+    "storage_bucket": "epicapp-d7ba0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:724877184015:android:bb02a349e85bc958",
+        "android_client_info": {
+          "package_name": "francis.epicapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "724877184015-jp8ghivvc7vf3h5c7s2lfd470o4thvio.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "francis.epicapp",
+            "certificate_hash": "7E791D5412B8F34E832C325EF7731121334E0BF1"
+          }
+        },
+        {
+          "client_id": "724877184015-apgcqjdmenhvgig5k9phtlormaf9gns2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuOe5S3oUHIlfAm3K8xTJfyVau33Kf_C4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "724877184015-apgcqjdmenhvgig5k9phtlormaf9gns2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

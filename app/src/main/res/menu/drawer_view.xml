@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Youtube">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/seeAllVid"
+                    android:icon="@drawable/ic_four"
+                    android:title="Toutes nos vidéo" />
+                <item
+                    android:id="@+id/seePlaylists"
+                    android:icon="@drawable/ic_five"
+                    android:title="Nos Playlists" />
+            </group>
+        </menu>
+    </item>
+
+
+    <item android:title="Twitch">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/seeHoraireTwitch"
+                    android:icon="@drawable/ic_four"
+                    android:title="Horaire" />
+                <item
+                    android:icon="@drawable/ic_five"
+                    android:title="Deuxieme onglet" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Settings">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/settings"
+                    android:icon="@drawable/ic_four"
+                    android:title="Options" />
+                <item
+                    android:icon="@drawable/ic_five"
+                    android:title="Report a bug"
+                    android:enabled="false"/>
+            </group>
+        </menu>
+    </item>
+</menu>
