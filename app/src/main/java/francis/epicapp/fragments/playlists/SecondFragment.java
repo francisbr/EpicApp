@@ -1,4 +1,4 @@
-package francis.epicapp.fragments;
+package francis.epicapp.fragments.playlists;
 
 
 import android.os.AsyncTask;
@@ -6,13 +6,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.json.JSONException;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import francis.epicapp.R;
@@ -30,13 +33,11 @@ public class SecondFragment extends Fragment {
     protected static ArrayList<Playlist> selectedPlaylists = new ArrayList<>();
 
     public static TabLayout tabLayout;
+    ViewPager pager;
 
     public static String PLAYLIST_TO_FETCH = "selected";
 
 
-    public SecondFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +63,7 @@ public class SecondFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         tabLayout = (TabLayout) getView().findViewById(R.id.tabsPlaylists);
+        pager = (ViewPager) getView().findViewById(R.id.pager);
     }
 
 
@@ -77,7 +79,6 @@ public class SecondFragment extends Fragment {
                 }
             }
         }
-
         tabLayout.setVisibility(View.VISIBLE);
     }
 
@@ -116,6 +117,37 @@ public class SecondFragment extends Fragment {
                 tabLayout.setVisibility(View.VISIBLE);
             }
 
+//            pager.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
+//                @Override
+//                public Fragment getItem(int position) {
+//                    SinglePlaylistFragment frag = new SinglePlaylistFragment();
+//
+//                    Bundle args = new Bundle();
+//                    try {
+//                        args.putByteArray("playlist", object2Bytes(allPlaylists.get(position)));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    frag.setArguments(args);
+//
+//                    return frag;
+//                }
+//
+//                @Override
+//                public int getCount() {
+//                    return 3;
+//                }
+//            });
+
+            tabLayout.setupWithViewPager(pager);
+
         }
+    }
+    static public byte[] object2Bytes( Object o ) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream( baos );
+        oos.writeObject( o );
+        return baos.toByteArray();
     }
 }

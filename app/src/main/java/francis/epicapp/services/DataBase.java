@@ -10,7 +10,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import francis.epicapp.fragments.SecondFragment;
+import francis.epicapp.fragments.playlists.SecondFragment;
 
 /**
  * Created by Francis on 13-Feb-17.

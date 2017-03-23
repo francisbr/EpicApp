@@ -73,6 +73,32 @@ public abstract class YoutubeFetcher {
         return tabVideos;
     }
 
+    public static ArrayList<Video> getPlaylistVideos(String PlaylistId) throws IOException, JSONException {
+
+        JSONObject json = getJSON(urlBuilderForPlaylist(PlaylistId, null));
+
+        JSONArray videos = json.getJSONArray("items");
+
+        JSONObject snippet = null;
+        ArrayList<Video> tabVideos = new ArrayList<>();
+
+
+        for (int i = 0; i < videos.length(); i++) {
+            snippet = videos.getJSONObject(i).getJSONObject("snippet");
+            String title = snippet.getString("title");
+            String publishedAt = snippet.getString("publishedAt");
+            String description = snippet.getString("description");
+            String thumbnail = snippet.getJSONObject("thumbnails").getJSONObject("medium").getString("url");
+
+            String id = snippet.getJSONObject("resourceId").getString("videoId");
+            Video vid = new Video(id, title, description, thumbnail, publishedAt);
+
+            tabVideos.add(vid);
+        }
+
+        return tabVideos;
+    }
+
     public static ArrayList<Playlist> getChannelPlaylists() throws IOException, JSONException {
 
 

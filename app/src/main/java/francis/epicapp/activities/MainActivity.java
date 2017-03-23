@@ -13,7 +13,7 @@ import android.view.MenuItem;
 
 import francis.epicapp.R;
 import francis.epicapp.fragments.ListVideoFragment;
-import francis.epicapp.fragments.SecondFragment;
+import francis.epicapp.fragments.playlists.SecondFragment;
 import francis.epicapp.fragments.ThirdFragment;
 
 public class MainActivity extends AppCompatActivity {

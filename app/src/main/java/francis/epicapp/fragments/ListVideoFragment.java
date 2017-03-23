@@ -19,6 +19,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import francis.epicapp.R;
 import francis.epicapp.youtubeElements.Video;
@@ -34,9 +35,6 @@ public class ListVideoFragment extends Fragment {
 
     ListView list;
 
-    public ListVideoFragment() {
-        // Required empty public constructor
-    }
 
 
     @Override
@@ -106,9 +104,12 @@ public class ListVideoFragment extends Fragment {
                     //TextView description = (TextView) convertView.findViewById(R.id.description);
                     ImageView image = (ImageView) convertView.findViewById(R.id.thumbnail_view);
 
+                    TextView dateText = (TextView) convertView.findViewById(R.id.dateText);
+
+
                     title.setText(currentVid.getTitle());
                     //description.setText(videos[position].description);
-
+                    dateText.setText(calculateTimeDifference(currentVid.getPublishedAt()));
 
                     Picasso.with(getContext())
                             .load(currentVid.getThumbnail())
@@ -127,6 +128,70 @@ public class ListVideoFragment extends Fragment {
             });
 
         }
+    }
+
+    private String calculateTimeDifference(Date publishedAt) {
+        String formattedDifference = "Just now";
+
+        Date now = new Date();
+        long different = now.getTime() - publishedAt.getTime();
+
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+
+        long elapsedDays = different / daysInMilli;
+        long elapsedWeeks = elapsedDays / 7;
+        long elapsedMonths = elapsedWeeks / 4;
+        long elapsedYears = elapsedMonths / 12;
+        different = different % daysInMilli;
+
+        long elapsedHours = different / hoursInMilli;
+        different = different % hoursInMilli;
+
+        long elapsedMinutes = different / minutesInMilli;
+        different = different % minutesInMilli;
+
+        long elapsedSeconds = different / secondsInMilli;
+
+
+
+        if ( elapsedYears > 1 )
+            formattedDifference = "" + elapsedYears + " years ago";
+        else if ( elapsedYears == 1 )
+            formattedDifference = "" + elapsedYears + " year ago";
+        else {
+            if ( elapsedMonths > 1 )
+                formattedDifference = "" + elapsedMonths + " months ago";
+            else if ( elapsedMonths == 1 )
+                formattedDifference = "" + elapsedMonths + " month ago";
+            else {
+                if ( elapsedWeeks > 1 )
+                    formattedDifference = "" + elapsedWeeks + " weeks ago";
+                else if ( elapsedWeeks == 1 )
+                    formattedDifference = "" + elapsedWeeks + " week ago";
+                else {
+                    if ( elapsedDays > 1 )
+                        formattedDifference = "" + elapsedDays + " days ago";
+                    else if ( elapsedDays == 1 )
+                        formattedDifference = "" + elapsedDays + " day ago";
+                    else {
+                        if ( elapsedHours > 1 )
+                            formattedDifference = "" + elapsedHours + " hours ago";
+                        else if ( elapsedHours == 1 )
+                            formattedDifference = "" + elapsedHours + " hour ago";
+                        else {
+                            if ( elapsedMinutes > 2 )
+                                formattedDifference = "" + elapsedMinutes + " minutes ago";
+                        }
+                    }
+                }
+            }
+        }
+
+
+        return formattedDifference;
     }
 
 }

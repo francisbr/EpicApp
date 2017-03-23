@@ -2,6 +2,11 @@ package francis.epicapp.youtubeElements;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import francis.epicapp.activities.VideoPlayActivity;
 
@@ -19,9 +24,22 @@ public class Video {
     public Video(String id, String title, String description, String thumbnail, String publishedAt) {
         this.title = title;
         this.description = description;
-        this.publishedAt = new Date(publishedAt.substring(8,9), publishedAt.substring(5,6), publishedAt.substring(0,3), publishedAt.substring(11,12), publishedAt.substring(14,15));
         this.thumbnail = thumbnail;
         this.id = id;
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
+        String toFormat = publishedAt.substring(0,10) + " " + publishedAt.substring(11,19);
+        Log.d("stringToFormat", toFormat);
+
+        try {
+
+            this.publishedAt = simpleDateFormat.parse(toFormat);
+            Log.d("day", "" + this.publishedAt.toString());
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void playVid(Context current) {
@@ -42,5 +60,9 @@ public class Video {
 
     public String getThumbnail() {
         return thumbnail;
+    }
+
+    public Date getPublishedAt() {
+        return publishedAt;
     }
 }

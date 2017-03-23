@@ -7,7 +7,7 @@
                 <item
                     android:id="@+id/seeAllVid"
                     android:icon="@drawable/ic_four"
-                    android:title="Toutes nos vidéo" />
+                    android:title="Toutes nos vidéos" />
                 <item
                     android:id="@+id/seePlaylists"
                     android:icon="@drawable/ic_five"
