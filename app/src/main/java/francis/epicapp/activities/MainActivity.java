@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import francis.epicapp.R;
 import francis.epicapp.fragments.ListVideoFragment;
+import francis.epicapp.fragments.StreamFragment;
 import francis.epicapp.fragments.playlists.SecondFragment;
 import francis.epicapp.fragments.ThirdFragment;
 
@@ -84,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.seeHoraireTwitch:
                 fragmentClass = ThirdFragment.class;
+                break;
+            case R.id.watchStream:
+                fragmentClass = StreamFragment.class;
                 break;
             default:
                 fragmentClass = ListVideoFragment.class;
