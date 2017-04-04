@@ -18,11 +18,17 @@
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:visibility="gone"
-            app:tabMode="scrollable">
+            app:tabMode="fixed">
 
         </android.support.design.widget.TabLayout>
+
     </android.support.design.widget.AppBarLayout>
 
+    <ProgressBar
+        android:id="@+id/waitingForvideoProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
     <view
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

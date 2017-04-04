@@ -14,8 +14,8 @@ import android.view.MenuItem;
 import francis.epicapp.R;
 import francis.epicapp.fragments.ListVideoFragment;
 import francis.epicapp.fragments.StreamFragment;
-import francis.epicapp.fragments.playlists.SecondFragment;
 import francis.epicapp.fragments.ThirdFragment;
+import francis.epicapp.fragments.playlists.PlaylistsFragment;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
@@ -65,6 +65,13 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
+        ListVideoFragment frag = new ListVideoFragment();
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, frag).commit();
+
+        navigationView.setCheckedItem(R.id.seeAllVid);
     }
 
     /**
@@ -74,14 +81,14 @@ public class MainActivity extends AppCompatActivity {
     public void selectDrawerItem(MenuItem menuItem) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
-        Class fragmentClass;
+        Class fragmentClass = null;
         switch (menuItem.getItemId()) {
             case R.id.seeAllVid:
                 fragmentClass = ListVideoFragment.class;
                 break;
             case R.id.seePlaylists:
 
-                fragmentClass = SecondFragment.class;
+                fragmentClass = PlaylistsFragment.class;
                 break;
             case R.id.seeHoraireTwitch:
                 fragmentClass = ThirdFragment.class;

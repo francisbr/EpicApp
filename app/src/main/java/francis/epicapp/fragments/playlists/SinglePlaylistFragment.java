@@ -48,6 +48,8 @@ public class SinglePlaylistFragment extends Fragment {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
 
 
@@ -77,12 +79,12 @@ public class SinglePlaylistFragment extends Fragment {
                     convertView = getActivity().getLayoutInflater().inflate(R.layout.listview_youtube, parent, false);
 
                 TextView title = (TextView) convertView.findViewById(R.id.titleListe);
-                //TextView description = (TextView) convertView.findViewById(R.id.description);
+                TextView dateText = (TextView) convertView.findViewById(R.id.dateText);
                 ImageView image = (ImageView) convertView.findViewById(R.id.thumbnail_view);
 
                 title.setText(currentVid.getTitle());
                 //description.setText(videos[position].description);
-
+                dateText.setVisibility(View.GONE);
 
                 Picasso.with(getContext())
                         .load(currentVid.getThumbnail())
@@ -91,6 +93,7 @@ public class SinglePlaylistFragment extends Fragment {
                 return convertView;
             }
         });
+
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -108,6 +111,7 @@ public class SinglePlaylistFragment extends Fragment {
         Object o = ois.readObject();
         return o;
     }
+
 
 
 }

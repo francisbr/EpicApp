@@ -18,7 +18,7 @@ import java.util.Date;
 
 public class Playlist implements Serializable {
 
-    protected ArrayList<Video> videoList;
+    protected ArrayList<Video> videoList = new ArrayList<>();
 
     protected String playlistId;
     protected String playlistTitle;
@@ -26,11 +26,10 @@ public class Playlist implements Serializable {
     protected Date publishedAt;
     protected String description;
 
-    protected ArrayList<String> pagesList;
+
 
 
     public Playlist(String id, String title, String description, String thumbnail, String publishedAt) {
-        getVideos();
         this.playlistTitle = title;
         this.description = description;
         this.thumbnail = thumbnail;
@@ -39,21 +38,29 @@ public class Playlist implements Serializable {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
         String toFormat = publishedAt.substring(0,10) + " " + publishedAt.substring(11,19);
-        Log.d("stringToFormat", toFormat);
 
         try {
 
             this.publishedAt = simpleDateFormat.parse(toFormat);
-            Log.d("day", "" + this.publishedAt.toString());
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        getVideos();
+    }
+
+    public Playlist(String id, String title) {
+        this.playlistTitle = title;
+        this.playlistId = id;
+        getVideos();
     }
 
     protected void getVideos(){
         VideosFetcher fetcher = new VideosFetcher();
-        fetcher.execute(videoList);
+        fetcher.execute();
+
+
     }
 
     public String getPlaylistId() {
@@ -68,28 +75,33 @@ public class Playlist implements Serializable {
         return videoList;
     }
 
-    public class VideosFetcher extends AsyncTask<ArrayList<Video>, Object, ArrayList> {
+    public class VideosFetcher extends AsyncTask<ArrayList<Video>, Integer, ArrayList> {
 
         @Override
         protected ArrayList<Video> doInBackground(ArrayList<Video>... list) {
             try {
-                list[0] = YoutubeFetcher.getPlaylistVideos(playlistId);
+                videoList = YoutubeFetcher.getPlaylistVideos(playlistId);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            return list[0];
+
+            return videoList;
         }
 
         @Override
-        protected void onProgressUpdate(Object... values) {
+        protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
+
         }
+
 
         @Override
         protected void onPostExecute(ArrayList videos) {
+
+            Log.d("" + playlistTitle, "videoDownloaded (" + videoList.size() + ")");
         }
     }
 }
