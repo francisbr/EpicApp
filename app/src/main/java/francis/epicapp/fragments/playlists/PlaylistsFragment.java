@@ -41,7 +41,7 @@ public class PlaylistsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_second, container, false);
+        View view = inflater.inflate(R.layout.fragment_playlist, container, false);
 
         playlists = new ArrayList<>();
         playlists.add(new Playlist("PL8ymlYxc4B4R1uujHyhVZhZPm8ooHUTE7", "EpicTalkShow"));
@@ -84,9 +84,6 @@ public class PlaylistsFragment extends Fragment {
                     SinglePlaylistFragment frag = new SinglePlaylistFragment();
                     Bundle bundle = new Bundle();
 
-                    do {
-                    } while(playlists.get(position).getVideoList().isEmpty());
-
                     bundle.putByteArray("playlist", toByteArray(playlists.get(position)));
                     frag.setArguments(bundle);
                     return frag;
@@ -106,6 +103,7 @@ public class PlaylistsFragment extends Fragment {
 
             bar.setVisibility(View.GONE);
             tabLayout.setVisibility(View.VISIBLE);
+            pager.setVisibility(View.VISIBLE);
         }
     }
 
