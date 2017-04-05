@@ -34,7 +34,7 @@ public class StreamFragment extends Fragment {
         final ProgressBar bar = (ProgressBar) view.findViewById(R.id.progBar);
 
         maWebView.getSettings().setJavaScriptEnabled(true);
-        maWebView.loadUrl("https://player.twitch.tv/?channel=kaypealol&autoplay=true");
+        maWebView.loadUrl("https://player.twitch.tv/?channel=epicjoystick&autoplay=true");
 
         maWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
