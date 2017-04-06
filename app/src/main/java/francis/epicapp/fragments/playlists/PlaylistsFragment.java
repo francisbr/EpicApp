@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import java.io.ByteArrayOutputStream;
@@ -19,6 +20,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import francis.epicapp.InternetStatusListener;
 import francis.epicapp.R;
 import francis.epicapp.youtubeElements.Playlist;
 
@@ -56,10 +58,20 @@ public class PlaylistsFragment extends Fragment {
         tabLayout = (TabLayout) getView().findViewById(R.id.tabsPlaylists);
         pager = (ViewPager) getView().findViewById(R.id.pager);
 
-        bar = (ProgressBar) view.findViewById(R.id.waitingForvideoProgressBar);
-        WaitingForVideos task = new WaitingForVideos();
-        task.execute();
+        bar = (ProgressBar) view.findViewById(R.id.playlistProgressBar);
+
+
         tabLayout.setupWithViewPager(pager);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (InternetStatusListener.isOnline(getContext(), (LinearLayout) getView().findViewById(R.id.layoutPlaylist))) {
+            WaitingForVideos task = new WaitingForVideos();
+            task.execute();
+        } else
+            bar.setVisibility(View.GONE);
     }
 
     public class WaitingForVideos extends AsyncTask<Object, Object, ArrayList> {

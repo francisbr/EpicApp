@@ -3,6 +3,7 @@ package francis.epicapp.fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -21,6 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import francis.epicapp.InternetStatusListener;
 import francis.epicapp.R;
 import francis.epicapp.youtubeElements.Video;
 import francis.epicapp.youtubeElements.YoutubeFetcher;
@@ -34,6 +38,7 @@ public class ListVideoFragment extends Fragment {
     public static VideosFetcher fetcher;
 
     ListView list;
+    ProgressBar bar;
 
 
 
@@ -42,13 +47,33 @@ public class ListVideoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        list = (ListView) container.findViewById(R.id.maListeView);
 
 
         fetcher = new VideosFetcher();
 
-        fetcher.execute();
         return inflater.inflate(R.layout.fragment_list_video, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        list = (ListView) view.findViewById(R.id.maListeView);
+        bar = (ProgressBar) view.findViewById(R.id.listeVideoProgressBar);
+
+
+        list.setVisibility(View.GONE);
+        bar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (InternetStatusListener.isOnline(getContext(), (LinearLayout) getView().findViewById(R.id.layoutListVideo)))
+            fetcher.execute();
+        else {
+            bar.setVisibility(View.GONE);
+        }
     }
 
     public class VideosFetcher extends AsyncTask<Object, Object, ArrayList> {
@@ -87,6 +112,7 @@ public class ListVideoFragment extends Fragment {
                 public Object getItem(int position) {
                     return null;
                 }
+
 
                 @Override
                 public long getItemId(int position) {
@@ -127,6 +153,8 @@ public class ListVideoFragment extends Fragment {
                 }
             });
 
+            list.setVisibility(View.VISIBLE);
+            bar.setVisibility(View.GONE);
         }
     }
 

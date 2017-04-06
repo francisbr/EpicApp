@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import francis.epicapp.InternetStatusListener;
 import francis.epicapp.R;
 
 /**
@@ -20,6 +22,9 @@ import francis.epicapp.R;
  */
 
 public class StreamFragment extends Fragment {
+
+    WebView maWebView;
+    ProgressBar bar;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -29,10 +34,22 @@ public class StreamFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        maWebView = (WebView) view.findViewById(R.id.streamWebView);
+        bar = (ProgressBar) view.findViewById(R.id.progBar);
+    }
 
-        final WebView maWebView = (WebView) view.findViewById(R.id.streamWebView);
-        final ProgressBar bar = (ProgressBar) view.findViewById(R.id.progBar);
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        if (InternetStatusListener.isOnline(getContext(), (LinearLayout) getView().findViewById(R.id.layoutStream)))
+            loadStream();
+        else {
+            bar.setVisibility(View.GONE);
+        }
+    }
+
+    private void loadStream() {
         maWebView.getSettings().setJavaScriptEnabled(true);
         maWebView.loadUrl("https://player.twitch.tv/?channel=epicjoystick&autoplay=true");
 
@@ -65,6 +82,5 @@ public class StreamFragment extends Fragment {
                 return false;
             }
         });
-
     }
 }

@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             default:
                 fragmentClass = ListVideoFragment.class;
+                break;
         }
 
         try {
@@ -146,4 +147,5 @@ public class MainActivity extends AppCompatActivity {
         // Pass any configuration change to the drawer toggles
         drawerToggle.onConfigurationChanged(newConfig);
     }
+
 }
