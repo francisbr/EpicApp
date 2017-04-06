@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="vertical"
+    android:animateLayoutChanges="true"
     android:padding="12dp">
 
 
@@ -32,6 +33,13 @@
         android:text="2 hours ago"
         android:textSize="10dp"
         android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ALLLLLLOOO"
+        android:visibility="gone" />
 
 
 </LinearLayout>

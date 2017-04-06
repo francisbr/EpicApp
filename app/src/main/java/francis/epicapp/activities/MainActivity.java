@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import francis.epicapp.R;
 import francis.epicapp.fragments.ListVideoFragment;
 import francis.epicapp.fragments.StreamFragment;
-import francis.epicapp.fragments.ThirdFragment;
+import francis.epicapp.fragments.HoraireFragment;
 import francis.epicapp.fragments.playlists.PlaylistsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -66,12 +66,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+        //Setting up openning fragment!
         ListVideoFragment frag = new ListVideoFragment();
-        // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, frag).commit();
-
         navigationView.setCheckedItem(R.id.seeAllVid);
+        //---------------------------------
     }
 
     /**
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentClass = PlaylistsFragment.class;
                 break;
             case R.id.seeHoraireTwitch:
-                fragmentClass = ThirdFragment.class;
+                fragmentClass = HoraireFragment.class;
                 break;
             case R.id.watchStream:
                 fragmentClass = StreamFragment.class;

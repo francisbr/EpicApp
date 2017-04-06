@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:weightSum="10">
+
+        <ImageView
+            android:id="@+id/expandIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:rotation="-90"
+            android:src="@drawable/ic_expand" />
+
+        <TextView
+            android:id="@+id/titleStream"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Titre"
+            android:textStyle="bold"
+            android:textSize="30sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/toHide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/jourStream"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lundi"
+                android:textSize="@dimen/subtitleTextSize" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text=" "
+                android:textSize="@dimen/subtitleTextSize" />
+
+            <TextView
+                android:id="@+id/heureStream"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="19h00"
+                android:textSize="@dimen/subtitleTextSize"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text=" "
+                android:textSize="@dimen/subtitleTextSize" />
+
+            <TextView
+                android:id="@+id/streamerStream"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="avec Alex"
+                android:textSize="@dimen/subtitleTextSize" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/descriptionStream"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description description description description description description description description description description description description description description description " />
+
+    </LinearLayout>
+
+
+</LinearLayout>

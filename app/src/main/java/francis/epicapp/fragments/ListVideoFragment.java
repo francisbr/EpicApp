@@ -47,7 +47,7 @@ public class ListVideoFragment extends Fragment {
         // Inflate the layout for this fragment
 
 
-        fetcher = new VideosFetcher();
+
 
         return inflater.inflate(R.layout.fragment_list_video, container, false);
     }
@@ -67,9 +67,10 @@ public class ListVideoFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        if (InternetStatusListener.isOnline(getContext(), (LinearLayout) getView().findViewById(R.id.layoutListVideo)))
+        if (InternetStatusListener.isOnline(getContext(), (LinearLayout) getView().findViewById(R.id.layoutListVideo))) {
+            fetcher = new VideosFetcher();
             fetcher.execute();
-        else {
+        } else {
             bar.setVisibility(View.GONE);
         }
     }
@@ -148,6 +149,7 @@ public class ListVideoFragment extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Video currentVid = (Video) videos.get(position);
                     currentVid.playVid(getContext());
+
                 }
             });
 
