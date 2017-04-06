@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Gere les clicks dans le slider menu
+     *
      * @param menuItem
      */
     public void selectDrawerItem(MenuItem menuItem) {

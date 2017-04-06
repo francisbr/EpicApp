@@ -14,7 +14,8 @@ import android.widget.LinearLayout;
  */
 
 public class InternetStatusListener extends BroadcastReceiver {
-    private static final String TAG="INTERNET_STATUS";
+    private static final String TAG = "INTERNET_STATUS";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.e(TAG, "network status changed");
@@ -30,10 +31,11 @@ public class InternetStatusListener extends BroadcastReceiver {
         if (netInfo != null && netInfo.isConnectedOrConnecting()) {
             return true;
         } else {
-            if (show.length > 0){
-                if (show[0]){
+            if (show.length > 0) {
+                if (show[0]) {
                     Snackbar.make(layout, "No Internet Connection", 4000).show();
-                } else{}
+                } else {
+                }
             } else {
                 Snackbar.make(layout, "No Internet Connection", 4000).show();
             }

@@ -14,7 +14,7 @@ import francis.epicapp.activities.VideoPlayActivity;
  * Created by Francis on 09-Feb-17.
  */
 
-public class Video implements Serializable{
+public class Video implements Serializable {
     protected String title;
     protected Date publishedAt;
     protected String description;
@@ -28,7 +28,7 @@ public class Video implements Serializable{
         this.id = id;
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
-        String toFormat = publishedAt.substring(0,10) + " " + publishedAt.substring(11,19);
+        String toFormat = publishedAt.substring(0, 10) + " " + publishedAt.substring(11, 19);
 
         try {
 

@@ -41,12 +41,10 @@ public class ListVideoFragment extends Fragment {
     ProgressBar bar;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
 
 
         fetcher = new VideosFetcher();
@@ -184,33 +182,32 @@ public class ListVideoFragment extends Fragment {
         long elapsedSeconds = different / secondsInMilli;
 
 
-
-        if ( elapsedYears > 1 )
+        if (elapsedYears > 1)
             formattedDifference = "" + elapsedYears + " years ago";
-        else if ( elapsedYears == 1 )
+        else if (elapsedYears == 1)
             formattedDifference = "" + elapsedYears + " year ago";
         else {
-            if ( elapsedMonths > 1 )
+            if (elapsedMonths > 1)
                 formattedDifference = "" + elapsedMonths + " months ago";
-            else if ( elapsedMonths == 1 )
+            else if (elapsedMonths == 1)
                 formattedDifference = "" + elapsedMonths + " month ago";
             else {
-                if ( elapsedWeeks > 1 )
+                if (elapsedWeeks > 1)
                     formattedDifference = "" + elapsedWeeks + " weeks ago";
-                else if ( elapsedWeeks == 1 )
+                else if (elapsedWeeks == 1)
                     formattedDifference = "" + elapsedWeeks + " week ago";
                 else {
-                    if ( elapsedDays > 1 )
+                    if (elapsedDays > 1)
                         formattedDifference = "" + elapsedDays + " days ago";
-                    else if ( elapsedDays == 1 )
+                    else if (elapsedDays == 1)
                         formattedDifference = "" + elapsedDays + " day ago";
                     else {
-                        if ( elapsedHours > 1 )
+                        if (elapsedHours > 1)
                             formattedDifference = "" + elapsedHours + " hours ago";
-                        else if ( elapsedHours == 1 )
+                        else if (elapsedHours == 1)
                             formattedDifference = "" + elapsedHours + " hour ago";
                         else {
-                            if ( elapsedMinutes > 2 )
+                            if (elapsedMinutes > 2)
                                 formattedDifference = "" + elapsedMinutes + " minutes ago";
                         }
                     }

@@ -38,7 +38,6 @@ public class PlaylistsFragment extends Fragment {
     ProgressBar bar;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,9 +78,9 @@ public class PlaylistsFragment extends Fragment {
         @Override
         protected ArrayList<Playlist> doInBackground(Object... option) {
 
-            for (int i = 0; i < playlists.size() ; i++){
+            for (int i = 0; i < playlists.size(); i++) {
                 do {
-                } while(playlists.get(i).getVideoList().isEmpty());
+                } while (playlists.get(i).getVideoList().isEmpty());
             }
 
             return null;
@@ -118,7 +117,6 @@ public class PlaylistsFragment extends Fragment {
             pager.setVisibility(View.VISIBLE);
         }
     }
-
 
 
     private byte[] toByteArray(Playlist playlist) {

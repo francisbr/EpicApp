@@ -27,8 +27,6 @@ public class Playlist implements Serializable {
     protected String description;
 
 
-
-
     public Playlist(String id, String title, String description, String thumbnail, String publishedAt) {
         this.playlistTitle = title;
         this.description = description;
@@ -37,7 +35,7 @@ public class Playlist implements Serializable {
 
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
-        String toFormat = publishedAt.substring(0,10) + " " + publishedAt.substring(11,19);
+        String toFormat = publishedAt.substring(0, 10) + " " + publishedAt.substring(11, 19);
 
         try {
 
@@ -56,7 +54,7 @@ public class Playlist implements Serializable {
         getVideos();
     }
 
-    protected void getVideos(){
+    protected void getVideos() {
         VideosFetcher fetcher = new VideosFetcher();
         fetcher.execute();
 

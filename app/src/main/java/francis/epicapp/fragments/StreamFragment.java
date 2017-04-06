@@ -25,6 +25,7 @@ public class StreamFragment extends Fragment {
 
     WebView maWebView;
     ProgressBar bar;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class StreamFragment extends Fragment {
                 Log.d("webView progress", "" + progress);
 
                 bar.setProgress(progress);
-                if (progress >= 100){
+                if (progress >= 100) {
 
                     bar.setVisibility(View.GONE);
 

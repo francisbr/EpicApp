@@ -17,7 +17,6 @@ import okhttp3.Response;
 
 /**
  * Created by Francis on 09-Feb-17.
- *
  */
 
 public abstract class YoutubeFetcher {

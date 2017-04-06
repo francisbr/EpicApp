@@ -105,13 +105,12 @@ public class SinglePlaylistFragment extends Fragment {
         return view;
     }
 
-    static public Object bytes2Object( byte raw[] ) throws IOException, ClassNotFoundException {
-        ByteArrayInputStream bais = new ByteArrayInputStream( raw );
-        ObjectInputStream ois = new ObjectInputStream( bais );
+    static public Object bytes2Object(byte raw[]) throws IOException, ClassNotFoundException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(raw);
+        ObjectInputStream ois = new ObjectInputStream(bais);
         Object o = ois.readObject();
         return o;
     }
-
 
 
 }
