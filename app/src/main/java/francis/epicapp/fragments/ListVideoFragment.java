@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -67,7 +66,7 @@ public class ListVideoFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        if (InternetStatusListener.isOnline(getContext(), (LinearLayout) getView().findViewById(R.id.layoutListVideo))) {
+        if (InternetStatusListener.isOnline(getContext())) {
             fetcher = new VideosFetcher();
             fetcher.execute();
         } else {

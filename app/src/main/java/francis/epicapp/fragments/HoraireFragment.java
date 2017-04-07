@@ -93,11 +93,11 @@ public class HoraireFragment extends Fragment {
 
                 switch (hideLayout.getVisibility()) {
                     case View.GONE:
-                        icon.setRotation(icon.getRotation() + 90);
+                        icon.setRotation(0);
                         hideLayout.setVisibility(View.VISIBLE);
                         break;
                     case View.VISIBLE:
-                        icon.setRotation(icon.getRotation() - 90);
+                        icon.setRotation(-90);
                         hideLayout.setVisibility(View.GONE);
                         break;
                 }

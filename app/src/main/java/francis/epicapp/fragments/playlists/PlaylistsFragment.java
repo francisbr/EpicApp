@@ -11,7 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import java.io.ByteArrayOutputStream;
@@ -66,7 +65,7 @@ public class PlaylistsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (InternetStatusListener.isOnline(getContext(), (LinearLayout) getView().findViewById(R.id.layoutPlaylist))) {
+        if (InternetStatusListener.isOnline(getContext())) {
             WaitingForVideos task = new WaitingForVideos();
             task.execute();
         } else

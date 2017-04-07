@@ -11,10 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import francis.epicapp.InternetStatusListener;
 import francis.epicapp.R;
-import francis.epicapp.fragments.ListVideoFragment;
-import francis.epicapp.fragments.StreamFragment;
 import francis.epicapp.fragments.HoraireFragment;
+import francis.epicapp.fragments.ListVideoFragment;
+import francis.epicapp.fragments.NoInternetFragment;
+import francis.epicapp.fragments.StreamFragment;
 import francis.epicapp.fragments.playlists.PlaylistsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -66,12 +68,19 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        //Setting up openning fragment!
-        ListVideoFragment frag = new ListVideoFragment();
+        Fragment frag;
+        if (InternetStatusListener.isOnline(getApplicationContext())) {
+            //Setting up openning fragment!
+            frag = new ListVideoFragment();
+
+            //---------------------------------
+        } else {
+            frag = new NoInternetFragment();
+        }
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, frag).commit();
         navigationView.setCheckedItem(R.id.seeAllVid);
-        //---------------------------------
     }
 
     /**
@@ -85,22 +94,38 @@ public class MainActivity extends AppCompatActivity {
         Class fragmentClass = null;
         switch (menuItem.getItemId()) {
             case R.id.seeAllVid:
-                fragmentClass = ListVideoFragment.class;
+                if (InternetStatusListener.isOnline(getApplicationContext())) {
+                    fragmentClass = ListVideoFragment.class;
+                } else
+                    fragmentClass = NoInternetFragment.class;
                 break;
             case R.id.seePlaylists:
-
-                fragmentClass = PlaylistsFragment.class;
+                if (InternetStatusListener.isOnline(getApplicationContext())) {
+                    fragmentClass = PlaylistsFragment.class;
+                } else
+                    fragmentClass = NoInternetFragment.class;
                 break;
             case R.id.seeHoraireTwitch:
                 fragmentClass = HoraireFragment.class;
                 break;
             case R.id.watchStream:
-                fragmentClass = StreamFragment.class;
+                if (InternetStatusListener.isOnline(getApplicationContext())) {
+                    fragmentClass = StreamFragment.class;
+                } else
+                    fragmentClass = NoInternetFragment.class;
                 break;
             default:
-                fragmentClass = ListVideoFragment.class;
+                fragmentClass = HoraireFragment.class;
                 break;
         }
+
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+        mDrawer.closeDrawers();
+
 
         try {
             fragment = (Fragment) fragmentClass.newInstance();
@@ -111,14 +136,6 @@ public class MainActivity extends AppCompatActivity {
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-        // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked(true);
-        // Set action bar title
-        setTitle(menuItem.getTitle());
-        // Close the navigation drawer
-        mDrawer.closeDrawers();
-
 
     }
 

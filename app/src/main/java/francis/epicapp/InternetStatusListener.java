@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.widget.LinearLayout;
 
 /**
  * Created by Francis on 05-Apr-17.
@@ -25,21 +23,12 @@ public class InternetStatusListener extends BroadcastReceiver {
 //        }
     }
 
-    public static boolean isOnline(Context context, LinearLayout layout, Boolean... show) {
+    public static boolean isOnline(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnectedOrConnecting()) {
             return true;
         } else {
-            if (show.length > 0) {
-                if (show[0]) {
-                    Snackbar.make(layout, "No Internet Connection", 4000).show();
-                } else {
-                }
-            } else {
-                Snackbar.make(layout, "No Internet Connection", 4000).show();
-            }
-
             return false;
         }
     }

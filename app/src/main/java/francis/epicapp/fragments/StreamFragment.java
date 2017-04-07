@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import francis.epicapp.InternetStatusListener;
@@ -43,7 +42,7 @@ public class StreamFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        if (InternetStatusListener.isOnline(getContext(), (LinearLayout) getView().findViewById(R.id.layoutStream)))
+        if (InternetStatusListener.isOnline(getContext()))
             loadStream();
         else {
             bar.setVisibility(View.GONE);
