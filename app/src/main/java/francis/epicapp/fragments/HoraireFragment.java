@@ -60,9 +60,6 @@ public class HoraireFragment extends Fragment {
                 if (convertView == null)
                     convertView = getActivity().getLayoutInflater().inflate(R.layout.listview_jour, parent, false);
 
-                LinearLayout hideLayout = (LinearLayout) convertView.findViewById(R.id.toHide);
-                hideLayout.setVisibility(View.GONE);
-
                 TextView jourText = (TextView) convertView.findViewById(R.id.jourStream);
                 TextView heureText = (TextView) convertView.findViewById(R.id.heureStream);
                 TextView descriptionText = (TextView) convertView.findViewById(R.id.descriptionStream);
