@@ -12,6 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import francis.epicapp.InternetStatusListener;
 import francis.epicapp.R;
 import francis.epicapp.fragments.HoraireFragment;
@@ -19,10 +24,6 @@ import francis.epicapp.fragments.ListVideoFragment;
 import francis.epicapp.fragments.NoInternetFragment;
 import francis.epicapp.fragments.StreamFragment;
 import francis.epicapp.fragments.playlists.PlaylistsFragment;
-import com.mixpanel.android.mpmetrics.MixpanelAPI;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
@@ -51,8 +52,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         MixpanelAPI.People people = mixpanel.getPeople();
-        people.identify("12775");
+
+        people.identify(mixpanel.getDistinctId());
         people.initPushHandling("724877184015");
+        Log.d("id?", people.getDistinctId());
 
         /** Init le menu **/
         // Set a Toolbar to replace the ActionBar.
