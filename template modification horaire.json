@@ -1,0 +1,37 @@
+{
+  "modifications": [
+    {
+      "type": "add",
+      "titre": "NouveauStream",
+      "jour": "Lundi",
+      "heure": "19h00",
+      "streamers": [
+        "Alex",
+        "Mat"
+      ],
+      "description": "La description du stream"
+    },
+    {
+      "type": "remove",
+      "titre": "NouveauStream",
+      "jour": "Lundi",
+      "heure": "19h00",
+      "streamers": [
+        "Alex",
+        "Mat"
+      ],
+      "description": "La description du stream"
+    },
+    {
+      "type": "remove",
+      "titre": "NouveauStream",
+      "jour": "Lundi",
+      "heure": "19h00",
+      "streamers": [
+        "Alex",
+        "Mat"
+      ],
+      "description": "La description du stream"
+    }
+  ]
+}
