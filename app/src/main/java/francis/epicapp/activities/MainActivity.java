@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import francis.epicapp.InternetStatusListener;
@@ -18,6 +19,10 @@ import francis.epicapp.fragments.ListVideoFragment;
 import francis.epicapp.fragments.NoInternetFragment;
 import francis.epicapp.fragments.StreamFragment;
 import francis.epicapp.fragments.playlists.PlaylistsFragment;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
@@ -32,6 +37,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String projectToken = "92122f5b3896932def144c890cad4582"; // e.g.: "1ef7e30d2a58d27f4b90c42e31d6d7ad"
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, projectToken);
+
+        try {
+            JSONObject props = new JSONObject();
+            props.put("Gender", "Female");
+            props.put("Logged in", false);
+            mixpanel.track("MainActivity - onCreate called", props);
+        } catch (JSONException e) {
+            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
+        }
+
+        MixpanelAPI.People people = mixpanel.getPeople();
+        people.identify("12775");
+        people.initPushHandling("724877184015");
 
         /** Init le menu **/
         // Set a Toolbar to replace the ActionBar.
