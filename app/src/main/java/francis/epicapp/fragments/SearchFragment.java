@@ -65,6 +65,12 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        search.clearFocus();
+    }
+
+    @Override
     public boolean onQueryTextSubmit(String s) {
         Log.d("SEARCH", "onQueryTextSubmit");
         bar.setVisibility(View.VISIBLE);
