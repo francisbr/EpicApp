@@ -11,6 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
@@ -30,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
-
+    private ImageButton searchBtn;
     // Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
     // The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
     private ActionBarDrawerToggle drawerToggle;
@@ -63,6 +66,19 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        searchBtn = (ImageButton) findViewById(R.id.searchBtn);
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment frag = new SearchFragment();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.flContent, frag).addToBackStack(null).commit();
+                fragmentManager.beginTransaction().replace(R.id.flContent, frag).commit();
+                searchBtn.setVisibility(View.GONE);
+            }
+        });
+
         // Find our drawer view
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = setupDrawerToggle();
@@ -72,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
 
-        setupDrawerContent(nvDrawer);
+        setupDrawerContent(nvDrawer, savedInstanceState);
         /** **/
     }
 
@@ -83,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
     }
 
-    private void setupDrawerContent(NavigationView navigationView) {
+    private void setupDrawerContent(NavigationView navigationView, Bundle savedInstanceState) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -103,9 +119,11 @@ public class MainActivity extends AppCompatActivity {
             frag = new NoInternetFragment();
         }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, frag).commit();
-        navigationView.setCheckedItem(R.id.seeAllVid);
+        if (savedInstanceState == null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, frag).commit();
+            navigationView.setCheckedItem(R.id.seeAllVid);
+        }
     }
 
     /**
@@ -115,24 +133,21 @@ public class MainActivity extends AppCompatActivity {
      */
     public void selectDrawerItem(MenuItem menuItem) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
+        searchBtn.setVisibility(View.GONE);
         Fragment fragment = null;
         Class fragmentClass = null;
         switch (menuItem.getItemId()) {
             case R.id.seeAllVid:
                 if (InternetStatusListener.isOnline(getApplicationContext())) {
                     fragmentClass = ListVideoFragment.class;
+                    searchBtn.setVisibility(View.VISIBLE);
+
                 } else
                     fragmentClass = NoInternetFragment.class;
                 break;
             case R.id.seePlaylists:
                 if (InternetStatusListener.isOnline(getApplicationContext())) {
                     fragmentClass = PlaylistsFragment.class;
-                } else
-                    fragmentClass = NoInternetFragment.class;
-                break;
-            case R.id.seeSearch:
-                if (InternetStatusListener.isOnline(getApplicationContext())) {
-                    fragmentClass = SearchFragment.class;
                 } else
                     fragmentClass = NoInternetFragment.class;
                 break;
@@ -198,4 +213,11 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0 ) {
+            getSupportFragmentManager().popBackStack();
+        }
+    }
 }

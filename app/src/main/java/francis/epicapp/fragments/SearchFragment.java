@@ -53,6 +53,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         bar = (ProgressBar) view.findViewById(R.id.searchProgressBar);
         search = (SearchView) view.findViewById(R.id.searchView);
         search.setOnQueryTextListener(this);
+        search.setIconified(false);
 
         list.setVisibility(View.GONE);
         bar.setVisibility(View.GONE);

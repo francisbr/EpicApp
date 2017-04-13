@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
@@ -55,7 +56,6 @@ public class StreamFragment extends Fragment {
 
         maWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
-                Log.d("webView progress", "" + progress);
 
                 bar.setProgress(progress);
                 if (progress >= 100) {
@@ -63,24 +63,9 @@ public class StreamFragment extends Fragment {
                     bar.setVisibility(View.GONE);
 
                     maWebView.setVisibility(View.VISIBLE);
-                    maWebView.performClick();
                 }
             }
         });
 
-
-        maWebView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (((AppCompatActivity) getActivity()).getSupportActionBar().isShowing()) {
-                        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-                    } else {
-                        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-                    }
-                }
-                return false;
-            }
-        });
     }
 }
