@@ -12,6 +12,10 @@
                     android:id="@+id/seePlaylists"
                     android:icon="@drawable/ic_two"
                     android:title="Nos Playlists" />
+                <item
+                    android:id="@+id/seeSearch"
+                    android:icon="@drawable/ic_three"
+                    android:title="Rechercher" />
             </group>
         </menu>
     </item>

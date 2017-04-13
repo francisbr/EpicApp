@@ -26,7 +26,7 @@ public abstract class YoutubeFetcher {
     public static final String CHANNEL_ID = "UCAbe0RcmKz_kVxCsZdSwXSQ";
     public static String UP_PL;
     public static final String PART = "snippet";
-    public static final int MAX_RESULT = 25;
+    public static final int MAX_RESULT = 50;
     public static String channelNextPage = null;
     //-----------------------------------------
 
@@ -55,6 +55,31 @@ public abstract class YoutubeFetcher {
         Object[] res = getPlaylistVideos(UP_PL, new Object[] {null, new ArrayList<> ()});
         channelNextPage = (String) res[0];
         return (ArrayList<Video>) res[1];
+    }
+
+    public static ArrayList<Video> getSearchVideos(String query) throws IOException, JSONException {
+        JSONObject json = getJSON(urlBuilderForSearch(query));
+
+        Log.d("SEARCH", "got answer:");
+        Log.d("SEARCH", json.toString());
+        JSONArray videos = json.getJSONArray("items");
+
+        JSONObject snippet = null;
+        ArrayList<Video> res = new ArrayList<>();
+        for (int i = 0; i < videos.length(); i++) {
+            snippet = videos.getJSONObject(i).getJSONObject("snippet");
+            String title = snippet.getString("title");
+            String publishedAt = snippet.getString("publishedAt");
+            String description = snippet.getString("description");
+            String thumbnail = snippet.getJSONObject("thumbnails").getJSONObject("medium").getString("url");
+
+            String id = videos.getJSONObject(i).getJSONObject("id").getString("videoId");
+
+            Video vid = new Video(id, title, description, thumbnail, publishedAt);
+
+            res.add(vid);
+        }
+        return res;
     }
 
     public static Object[] getPlaylistVideos(String PlaylistId, Object[] res) throws IOException, JSONException {
@@ -134,7 +159,13 @@ public abstract class YoutubeFetcher {
         return "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id="+CHANNEL_ID+"&key="+API_KEY;
     }
 
-    protected static String urlBuilderForChannel(Type type, Order order, String pageToken) {
+    protected static String urlBuilderForSearch(String query) {
+        String s = "https://www.googleapis.com/youtube/v3/search?key=" + API_KEY + "&channelId=" + CHANNEL_ID + "&part=" + PART + "&type=video&order=date&maxResults=" + MAX_RESULT+"&q="+query;
+        Log.d("URL channel", s);
+        return s;
+    }
+
+        protected static String urlBuilderForChannel(Type type, Order order, String pageToken) {
         if (pageToken == null) {
             Log.d("URL channel", "https://www.googleapis.com/youtube/v3/search?key=" + API_KEY + "&channelId=" + CHANNEL_ID + "&part=" + PART + "&type=" + type.toString() + "&order=" + order.toString() + "&maxResults=" + MAX_RESULT);
             return "https://www.googleapis.com/youtube/v3/search?key=" + API_KEY + "&channelId=" + CHANNEL_ID + "&part=" + PART + "&type=" + type.toString() + "&order=" + order.toString() + "&maxResults=" + MAX_RESULT;

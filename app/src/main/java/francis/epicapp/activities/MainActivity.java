@@ -23,6 +23,7 @@ import francis.epicapp.fragments.HoraireFragment;
 import francis.epicapp.fragments.ListVideoFragment;
 import francis.epicapp.fragments.NoInternetFragment;
 import francis.epicapp.fragments.StreamFragment;
+import francis.epicapp.fragments.SearchFragment;
 import francis.epicapp.fragments.playlists.PlaylistsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -129,6 +130,13 @@ public class MainActivity extends AppCompatActivity {
                 } else
                     fragmentClass = NoInternetFragment.class;
                 break;
+            case R.id.seeSearch:
+                if (InternetStatusListener.isOnline(getApplicationContext())) {
+                    fragmentClass = SearchFragment.class;
+                } else
+                    fragmentClass = NoInternetFragment.class;
+                break;
+
             case R.id.seeHoraireTwitch:
                 fragmentClass = HoraireFragment.class;
                 break;
