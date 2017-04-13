@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import francis.epicapp.youtubeElements.urlParameters.Order;
 import francis.epicapp.youtubeElements.urlParameters.Type;
@@ -23,8 +24,10 @@ public abstract class YoutubeFetcher {
     //URL config
     public static final String API_KEY = "AIzaSyBxhms_1haI2liqQqiJ7t_iL6yyIj5ZRTA";
     public static final String CHANNEL_ID = "UCAbe0RcmKz_kVxCsZdSwXSQ";
+    public static String UP_PL;
     public static final String PART = "snippet";
-    public static final int MAX_RESULT = 50;
+    public static final int MAX_RESULT = 25;
+    public static String channelNextPage = null;
     //-----------------------------------------
 
 
@@ -46,40 +49,27 @@ public abstract class YoutubeFetcher {
     }
 
     public static ArrayList<Video> getChannelVideos() throws IOException, JSONException {
+        JSONObject json = getJSON(urlForChannelInfo());
+        UP_PL = ((JSONObject)json.getJSONArray("items").get(0)).getJSONObject("contentDetails").getJSONObject("relatedPlaylists").getString("uploads");
 
-        JSONObject json = getJSON(urlBuilderForChannel(Type.video, Order.date, null));
-
-        JSONArray videos = json.getJSONArray("items");
-
-        JSONObject snippet = null;
-        ArrayList<Video> tabVideos = new ArrayList<>();
-
-
-        for (int i = 0; i < videos.length(); i++) {
-            snippet = videos.getJSONObject(i).getJSONObject("snippet");
-            String title = snippet.getString("title");
-            String publishedAt = snippet.getString("publishedAt");
-            String description = snippet.getString("description");
-            String thumbnail = snippet.getJSONObject("thumbnails").getJSONObject("medium").getString("url");
-
-            String id = videos.getJSONObject(i).getJSONObject("id").getString("videoId");
-
-            Video vid = new Video(id, title, description, thumbnail, publishedAt);
-
-            tabVideos.add(vid);
-        }
-
-        return tabVideos;
+        Object[] res = getPlaylistVideos(UP_PL, new Object[] {null, new ArrayList<> ()});
+        channelNextPage = (String) res[0];
+        return (ArrayList<Video>) res[1];
     }
 
-    public static ArrayList<Video> getPlaylistVideos(String PlaylistId) throws IOException, JSONException {
-
+    public static Object[] getPlaylistVideos(String PlaylistId, Object[] res) throws IOException, JSONException {
         JSONObject json = getJSON(urlBuilderForPlaylist(PlaylistId, null));
 
         JSONArray videos = json.getJSONArray("items");
+        try {
+            res[0] = json.getString("nextPageToken");
+
+        } catch (JSONException e) {
+            res[0] = null;
+        }
 
         JSONObject snippet = null;
-        ArrayList<Video> tabVideos = new ArrayList<>();
+        res[1] = new ArrayList<>();
 
 
         for (int i = 0; i < videos.length(); i++) {
@@ -92,22 +82,37 @@ public abstract class YoutubeFetcher {
             String id = snippet.getJSONObject("resourceId").getString("videoId");
             Video vid = new Video(id, title, description, thumbnail, publishedAt);
 
-            tabVideos.add(vid);
+            ((ArrayList <Video>) res[1]).add(vid);
         }
 
-        return tabVideos;
+        return res;
     }
 
-    public static ArrayList<Playlist> getChannelPlaylists() throws IOException, JSONException {
+    public static ArrayList<Video> getMoreChannelVideos(ArrayList<Video> previousVids) throws IOException, JSONException {
+        if (channelNextPage == null) {
+            return previousVids;
+        }
 
+        Object[] res = getMorePlaylistsVideos(UP_PL, new Object[] {channelNextPage, previousVids});
+        channelNextPage = (String) res[0];
+        return (ArrayList<Video>) res[1];
+    }
 
-        JSONObject json = getJSON(urlBuilderForChannel(Type.playlist, Order.videoCount, null));
+    public static Object[] getMorePlaylistsVideos(String PlaylistId, Object[] res) throws IOException, JSONException {
+        if (res[0] == null) {
+            return null;
+        }
+
+        JSONObject json = getJSON(urlBuilderForPlaylist(PlaylistId, (String) res[0]));
 
         JSONArray videos = json.getJSONArray("items");
+        try {
+            res[0] = json.getString("nextPageToken");
+        } catch (JSONException e) {
+            res[0] = null;
+        }
 
         JSONObject snippet = null;
-        ArrayList<Playlist> listPlaylist = new ArrayList<>();
-
 
         for (int i = 0; i < videos.length(); i++) {
             snippet = videos.getJSONObject(i).getJSONObject("snippet");
@@ -116,14 +121,17 @@ public abstract class YoutubeFetcher {
             String description = snippet.getString("description");
             String thumbnail = snippet.getJSONObject("thumbnails").getJSONObject("medium").getString("url");
 
-            String id = videos.getJSONObject(i).getJSONObject("id").getString("playlistId");
+            String id = snippet.getJSONObject("resourceId").getString("videoId");
+            Video vid = new Video(id, title, description, thumbnail, publishedAt);
 
-            Playlist playlist = new Playlist(id, title, description, thumbnail, publishedAt);
-
-            listPlaylist.add(playlist);
+            ((ArrayList<Video>) res[1]).add(vid);
         }
 
-        return listPlaylist;
+        return res;
+    }
+
+    protected static String urlForChannelInfo() {
+        return "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id="+CHANNEL_ID+"&key="+API_KEY;
     }
 
     protected static String urlBuilderForChannel(Type type, Order order, String pageToken) {
