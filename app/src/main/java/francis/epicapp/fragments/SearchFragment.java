@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -69,6 +70,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public void onPause() {
         super.onPause();
         search.clearFocus();
+        ImageButton searchBtn = (ImageButton) getActivity().findViewById(R.id.searchBtn);
+        searchBtn.setVisibility(View.VISIBLE);
     }
 
     @Override
