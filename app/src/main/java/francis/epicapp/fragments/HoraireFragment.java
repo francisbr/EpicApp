@@ -1,28 +1,45 @@
 package francis.epicapp.fragments;
 
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import francis.epicapp.R;
 import francis.epicapp.Stream;
+
+import static android.R.attr.id;
+import static android.content.ContentValues.TAG;
 
 
 /**
  * rien fait encore
  */
 public class HoraireFragment extends Fragment {
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference mDatabase = database.getReference("message");
 
     ListView listView;
     ArrayList<Stream> semaine = new ArrayList<>();
@@ -76,7 +93,52 @@ public class HoraireFragment extends Fragment {
                     streamerText.setText("avec " + semaine.get(position).getStreamer());
                 }
 
+                View mView = convertView ;
+                if(mView == null){
+                    LayoutInflater vi = (LayoutInflater)mView.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    mView = vi.inflate(R.layout.fragment_horaire, null);}
 
+                listView.setBackgroundColor(Color.WHITE);
+                TextView text = (TextView) mView.findViewById(R.id.jourStream);
+                if(semaine.get(position) != null )
+                {
+                    text.setTextColor(Color.BLACK);
+                    //.setText(semaine.get(position));
+                    //text.setBackgroundColor(Color.BLUE);
+                }
+
+                TextView textHeure = (TextView) mView.findViewById(R.id.heureStream);
+                if(semaine.get(position) != null )
+                {
+                    textHeure.setTextColor(Color.BLACK);
+                    //.setText(semaine.get(position));
+                    //textHeure.setBackgroundColor(Color.BLUE);
+                }
+
+                TextView textDes = (TextView) mView.findViewById(R.id.descriptionStream);
+                if(semaine.get(position) != null )
+                {
+                    textDes.setTextColor(Color.BLACK);
+                    //.setText(semaine.get(position));
+                    //textDes.setBackgroundColor(Color.rgb(135,206,250));
+                    textDes.setBackgroundColor(Color.LTGRAY);
+                }
+
+                TextView textTitle = (TextView) mView.findViewById(R.id.titleStream);
+                if(semaine.get(position) != null )
+                {
+                    textTitle.setTextColor(Color.BLACK);
+                    //.setText(semaine.get(position));
+                    //textTitle.setBackgroundColor(Color.BLUE);
+                }
+
+                TextView textStream = (TextView) mView.findViewById(R.id.streamerStream);
+                if(semaine.get(position) != null )
+                {
+                    textStream.setTextColor(Color.BLACK);
+                    //.setText(semaine.get(position));
+                    //textStream.setBackgroundColor(Color.BLUE);
+                }
                 return convertView;
             }
         });
@@ -105,3 +167,4 @@ public class HoraireFragment extends Fragment {
     }
 
 }
+
