@@ -23,13 +23,12 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import francis.epicapp.InternetStatusListener;
 import francis.epicapp.R;
+import francis.epicapp.services.TimeDifference;
 import francis.epicapp.youtubeElements.Video;
 import francis.epicapp.youtubeElements.YoutubeFetcher;
-import francis.epicapp.services.TimeDifference;
 
 /**
  * List toutes les videos du channel. Fetch les video lorsque l;on load la page
@@ -215,7 +214,6 @@ public class ListVideoFragment extends Fragment {
 
                 public void update (ArrayList<Video> in) {
                     data = in;
-                    Log.d("ChannelBA", "Notifying");
                     notifyDataSetChanged();
                 }
 

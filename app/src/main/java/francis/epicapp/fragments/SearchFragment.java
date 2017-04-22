@@ -4,11 +4,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
@@ -25,7 +23,6 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import francis.epicapp.InternetStatusListener;
 import francis.epicapp.R;
 import francis.epicapp.services.TimeDifference;
 import francis.epicapp.youtubeElements.Video;
@@ -76,7 +73,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-        Log.d("SEARCH", "onQueryTextSubmit");
         bar.setVisibility(View.VISIBLE);
         search.clearFocus();
         VideosFetcher fetcher = new VideosFetcher(s);
@@ -86,7 +82,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Override
     public boolean onQueryTextChange(String s) {
-        Log.d("SEARCH", "onQueryTextChange");
         return false;
     }
 
@@ -139,7 +134,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
         public void update (ArrayList<Video> in) {
             data = in;
-            Log.d("ChannelBA", "Notifying");
             notifyDataSetChanged();
         }
 
@@ -152,7 +146,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         String query;
 
         public VideosFetcher (String query) {
-            Log.d("SEARCH", "created fetcher");
             this.query = query;
         }
 

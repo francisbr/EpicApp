@@ -1,7 +1,6 @@
 package francis.epicapp.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +61,6 @@ public class VideoPlayActivity extends YouTubeBaseActivity implements YouTubePla
     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
         Toast.makeText(this, "Failed to initialize.", Toast.LENGTH_LONG).show();
 
-        Log.d("result", youTubeInitializationResult.toString());
     }
 
 }

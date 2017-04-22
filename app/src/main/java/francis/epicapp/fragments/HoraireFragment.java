@@ -2,10 +2,13 @@ package francis.epicapp.fragments;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +24,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
+import francis.epicapp.InternetStatusListener;
 import francis.epicapp.R;
 import francis.epicapp.Stream;
 
@@ -43,16 +51,10 @@ public class HoraireFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_horaire, container, false);
-        loadOnlineData();
 
-        semaine.add(new Stream("Lundi", "19h00", "Epic Talkshow", "Epic joystick,1UPHGG", "Un podcast explosif avec Epic Joystick et 1UPHGG!\n\nDiscussion sur les dernières nouvelles concernant les jeux vidéo et la technologies."));
-        semaine.add(new Stream("Mardi", "19h00", "Les mardis Mat", "Mat", "Que ça soit des nouveautés, des jeux mobiles ou les titres gratuits du mois, Mat vous attend!"));
-        semaine.add(new Stream("Mercredi", "19h00", "Mercredi avec Alex", "Alex", "Une rotation de jeux avec Alex!\n\nEn ce moment, Alex tente de compléter The Last Guardian, Titanfall 2, HITMAN, et la série Mega Man."));
-        semaine.add(new Stream("Jeudi", "19h00", "Les jeudis subs", "", "Une panoplie de jeux choisis par les abonnés!\n\nSi vous êtes un abonné payant, visitez la section Subscribers sur www.epicjoysitck.com pour voter pour les jeux!"));
+
 
         listView = (ListView) view.findViewById(R.id.maListeView);
-
-        Log.d("semaineSize", "" + semaine.size());
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -76,6 +78,18 @@ public class HoraireFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (InternetStatusListener.isOnline(getContext())) {
+            HoraireFecther task = new HoraireFecther();
+            task.execute();
+        } else {
+            retreiveHoraire();
+        }
+    }
+
     private void loadOnlineData() {
 
         mDatabase = database.getReference("Horaire");
@@ -87,11 +101,10 @@ public class HoraireFragment extends Fragment {
                 int i = 0;
                 while (dataSnapshot.child(Integer.toString(i)).getValue() != null) {
                     addStream(dataSnapshot.child(Integer.toString(i)));
-                    Log.d("loop", "" + i);
-
                     i++;
                 }
                 afficheListeSemaine();
+                saveData();
             }
 
             @Override
@@ -102,17 +115,31 @@ public class HoraireFragment extends Fragment {
 
     }
 
+    private void saveData() {
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(getContext());
+        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(semaine);
+        prefsEditor.putString("Horaire", json);
+        prefsEditor.commit();
+    }
+
+    private void retreiveHoraire() {
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(getContext());
+        Gson gson = new Gson();
+        String json = appSharedPrefs.getString("Horaire", "");
+
+        Type type = new TypeToken<List<Stream>>() {
+        }.getType();
+        semaine = gson.fromJson(json, type);
+
+        afficheListeSemaine();
+    }
 
     private void addStream(DataSnapshot streamData) {
-        Log.d("children", streamData.toString());
-
-        Log.d("Titre", "" + streamData.child("Titre").getValue());
-        Log.d("Heure", "" + streamData.child("Heure").getValue());
-        Log.d("Jour", "" + streamData.child("Jour").getValue());
-        Log.d("Description", "" + streamData.child("Description").getValue());
-        Log.d("Streamers", "" + streamData.child("Streamers").getValue());
         ArrayList listStreamers = (ArrayList) streamData.child("Streamers").getValue();
-
         semaine.add(new Stream((String) streamData.child("Jour").getValue(), (String) streamData.child("Heure").getValue(), (String) streamData.child("Titre").getValue(), listStreamers, (String) streamData.child("Description").getValue()));
     }
 
@@ -201,6 +228,15 @@ public class HoraireFragment extends Fragment {
                 return convertView;
             }
         });
+    }
+
+    public class HoraireFecther extends AsyncTask<Object, Object, ArrayList> {
+
+        @Override
+        protected ArrayList doInBackground(Object... objects) {
+            loadOnlineData();
+            return null;
+        }
     }
 }
 
