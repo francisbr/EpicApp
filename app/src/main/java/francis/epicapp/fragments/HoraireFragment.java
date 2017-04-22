@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,6 +87,7 @@ public class HoraireFragment extends Fragment {
             HoraireFecther task = new HoraireFecther();
             task.execute();
         } else {
+            Snackbar.make(view, "No Internet, coudn't refresh :(", 4000).show();
             retreiveHoraire();
         }
     }

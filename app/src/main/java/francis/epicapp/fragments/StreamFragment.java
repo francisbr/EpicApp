@@ -1,8 +1,10 @@
 package francis.epicapp.fragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +46,30 @@ public class StreamFragment extends Fragment {
         else {
             bar.setVisibility(View.GONE);
         }
+
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //code for portrait mode
+            ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        } else {
+            //code for landscape mode
+            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //code for portrait mode
+            ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        } else {
+            //code for landscape mode
+            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        }
+
     }
 
     private void loadStream() {
