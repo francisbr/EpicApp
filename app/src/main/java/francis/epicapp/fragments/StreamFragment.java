@@ -40,10 +40,9 @@ public class StreamFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        if (InternetStatusListener.isOnline(getContext()))
+        if (InternetStatusListener.isOnline(getContext())) {
             loadStream();
-        else {
+        } else {
             bar.setVisibility(View.GONE);
         }
 
@@ -88,6 +87,12 @@ public class StreamFragment extends Fragment {
                 }
             }
         });
+    }
 
+    @Override
+    public void onDestroy() {
+        maWebView.destroy();
+        maWebView = null;
+        super.onDestroy();
     }
 }
