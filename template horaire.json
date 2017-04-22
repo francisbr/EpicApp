@@ -1,21 +1,35 @@
 {
   "Horaire" : [ {
-    "Description" : "Le plsu gros stream de la planete!",
+    "Description": "Un podcast explosif avec Epic Joystick et 1UPHGG! Discussion sur les dernières nouvelles concernant les jeux vidéo et la technologies.",
     "Heure" : "19h00",
     "Jour" : "Lundi",
-    "Streamers" : [ "Alex" ],
-    "Titre" : "Le Mega Stream"
+    "Streamers": [
+      "Epic joystick",
+      "1UPHGG"
+    ],
+    "Titre": "Epic Talkshow"
   }, {
-    "Description" : "RedBull donne des ailes!",
-    "Heure" : "21h30",
-    "Jour" : "Mercredi",
+    "Description": "Que ça soit des nouveautés, des jeux mobiles ou les titres gratuits du mois, Mat vous attend!",
+    "Heure": "19h00",
+    "Jour": "Mardi",
     "Streamers" : [ "Mat" ],
-    "Titre" : "L'envole"
+    "Titre": "Les mardis Mat"
   }, {
-    "Description" : "La soiree a ne pas manquer",
-    "Heure" : "18h50",
+    "Description": "Une rotation de jeux avec Alex! En ce moment, Alex tente de compléter The Last Guardian, Titanfall 2, HITMAN, et la série Mega Man.",
+    "Heure": "19h00",
+    "Jour": "Mercredi",
+    "Streamers": [
+      "Alex"
+    ],
+    "Titre": "Mercredi avec Alex"
+  },
+    {
+      "Description": "Une panoplie de jeux choisis par les abonnés! Si vous êtes un abonné payant, visitez la section Subscribers sur www.epicjoysitck.com pour voter pour les jeux!",
+      "Heure": "19h00",
     "Jour" : "Jeudi",
-    "Streamers" : [ "Alex", "Mat" ],
-    "Titre" : "Jeudi Subs"
+      "Streamers": [
+        "Alex"
+      ],
+      "Titre": "Les jeudis subs"
   } ]
 }

@@ -1,5 +1,7 @@
 package francis.epicapp;
 
+import java.util.ArrayList;
+
 /**
  * Created by Francis on 06-Apr-17.
  */
@@ -8,21 +10,26 @@ public class Stream {
     protected String jour;
     protected String heure;
     protected String titre;
-    protected String streamer = "";
+    protected ArrayList<String> streamers = new ArrayList<String>();
     protected String description;
 
-    public Stream(String jour, String heure, String titre, String streamer, String description) {
+    public Stream(String jour, String heure, String titre, String streamers, String description) {
         this.jour = jour;
         this.heure = heure;
         this.titre = titre;
-        this.streamer = streamer;
+        if (!streamers.equals("")) {
+            String tab[] = streamers.split(";");
+            for (int i = 0; i < tab.length; i++)
+                this.streamers.add(tab[i]);
+        }
         this.description = description;
     }
 
-    public Stream(String jour, String heure, String titre, String description) {
+    public Stream(String jour, String heure, String titre, ArrayList<String> streamers, String description) {
         this.jour = jour;
         this.heure = heure;
         this.titre = titre;
+        this.streamers = streamers;
         this.description = description;
     }
 
@@ -34,8 +41,8 @@ public class Stream {
         return heure;
     }
 
-    public String getStreamer() {
-        return streamer;
+    public ArrayList<String> getStreamer() {
+        return streamers;
     }
 
     public String getDescription() {
