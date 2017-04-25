@@ -179,6 +179,7 @@ public class HoraireFragment extends Fragment {
                 heureText.setText(semaine.get(position).getHeure());
                 descriptionText.setText(semaine.get(position).getDescription());
                 titreText.setText(semaine.get(position).getTitre());
+
                 if (semaine.get(position).getStreamer().isEmpty()) {
                     streamerText.setText("");
                 } else {
