@@ -34,32 +34,32 @@ public class TimeDifference {
 
 
         if (elapsedYears > 1)
-            formattedDifference = "" + elapsedYears + " years ago";
+            formattedDifference = "Il y a " + elapsedYears + "ans";
         else if (elapsedYears == 1)
-            formattedDifference = "" + elapsedYears + " year ago";
+            formattedDifference = "Il y a " + elapsedYears + " an";
         else {
             if (elapsedMonths > 1)
-                formattedDifference = "" + elapsedMonths + " months ago";
+                formattedDifference = "Il y a " + elapsedMonths + " mois";
             else if (elapsedMonths == 1)
-                formattedDifference = "" + elapsedMonths + " month ago";
+                formattedDifference = "Il y a " + elapsedMonths + " mois";
             else {
                 if (elapsedWeeks > 1)
-                    formattedDifference = "" + elapsedWeeks + " weeks ago";
+                    formattedDifference = "Il y a " + elapsedWeeks + " semaines";
                 else if (elapsedWeeks == 1)
-                    formattedDifference = "" + elapsedWeeks + " week ago";
+                    formattedDifference = "Il y a " + elapsedWeeks + " semaine";
                 else {
                     if (elapsedDays > 1)
-                        formattedDifference = "" + elapsedDays + " days ago";
+                        formattedDifference = "Il y a " + elapsedDays + " jours";
                     else if (elapsedDays == 1)
-                        formattedDifference = "" + elapsedDays + " day ago";
+                        formattedDifference = "Il y a " + elapsedDays + " jour";
                     else {
                         if (elapsedHours > 1)
-                            formattedDifference = "" + elapsedHours + " hours ago";
+                            formattedDifference = "Il y a " + elapsedHours + " heures";
                         else if (elapsedHours == 1)
-                            formattedDifference = "" + elapsedHours + " hour ago";
+                            formattedDifference = "Il y a " + elapsedHours + " heure";
                         else {
                             if (elapsedMinutes > 2)
-                                formattedDifference = "" + elapsedMinutes + " minutes ago";
+                                formattedDifference = "Il y a " + elapsedMinutes + " minutes";
                         }
                     }
                 }
