@@ -32,18 +32,4 @@
         </menu>
     </item>
 
-    <item android:title="Settings">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/settings"
-                    android:icon="@drawable/ic_four"
-                    android:title="Options" />
-                <item
-                    android:icon="@drawable/ic_five"
-                    android:title="Report a bug"
-                    android:enabled="false"/>
-            </group>
-        </menu>
-    </item>
 </menu>

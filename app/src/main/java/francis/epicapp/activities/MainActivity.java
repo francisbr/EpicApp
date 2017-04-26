@@ -20,12 +20,11 @@ import org.json.JSONObject;
 
 import francis.epicapp.InternetStatusListener;
 import francis.epicapp.R;
-import francis.epicapp.fragments.HoraireFragment;
 import francis.epicapp.fragments.ListVideoFragment;
 import francis.epicapp.fragments.NoInternetFragment;
 import francis.epicapp.fragments.SearchFragment;
 import francis.epicapp.fragments.StreamFragment;
-import francis.epicapp.fragments.TestFragment;
+import francis.epicapp.fragments.HoraireFragment;
 import francis.epicapp.fragments.playlists.PlaylistsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -157,9 +156,6 @@ public class MainActivity extends AppCompatActivity {
                     fragmentClass = StreamFragment.class;
                 } else
                     fragmentClass = NoInternetFragment.class;
-                break;
-            case R.id.settings:
-                fragmentClass = TestFragment.class;
                 break;
             default:
                 fragmentClass = HoraireFragment.class;

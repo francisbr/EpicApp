@@ -1,7 +1,5 @@
 package francis.epicapp.fragments;
 
-
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -10,12 +8,12 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,48 +34,19 @@ import francis.epicapp.InternetStatusListener;
 import francis.epicapp.R;
 import francis.epicapp.Stream;
 
-
-/**
- * rien fait encore
- */
 public class HoraireFragment extends Fragment {
-
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mDatabase;
 
-    ListView listView;
     ArrayList<Stream> semaine = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_horaire, container, false);
-
-
-
-        listView = (ListView) view.findViewById(R.id.maListeView);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                LinearLayout hideLayout = (LinearLayout) view.findViewById(R.id.toHide);
-                ImageView icon = (ImageView) view.findViewById(R.id.expandIcon);
-
-                switch (hideLayout.getVisibility()) {
-                    case View.GONE:
-                        icon.setRotation(0);
-                        hideLayout.setVisibility(View.VISIBLE);
-                        break;
-                    case View.VISIBLE:
-                        icon.setRotation(-90);
-                        hideLayout.setVisibility(View.GONE);
-                        break;
-                }
-            }
-        });
         // Inflate the layout for this fragment
-        return view;
+        return inflater.inflate(R.layout.fragment_horaire, container, false);
     }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -96,7 +65,8 @@ public class HoraireFragment extends Fragment {
 
         mDatabase = database.getReference("Horaire");
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 semaine.clear();
@@ -146,17 +116,133 @@ public class HoraireFragment extends Fragment {
     }
 
     private void afficheListeSemaine() {
-        listView = (ListView) getView().findViewById(R.id.maListeView);
+        ArrayList<Stream> lundi = new ArrayList<>();
+        ArrayList<Stream> mardi = new ArrayList<>();
+        ArrayList<Stream> mercredi = new ArrayList<>();
+        ArrayList<Stream> jeudi = new ArrayList<>();
+        ArrayList<Stream> vendredi = new ArrayList<>();
+        ArrayList<Stream> samedi = new ArrayList<>();
+        ArrayList<Stream> dimanche = new ArrayList<>();
+
+
+        lundi.clear();
+        mardi.clear();
+        mercredi.clear();
+        jeudi.clear();
+        vendredi.clear();
+        samedi.clear();
+        dimanche.clear();
+        for (int i = 0; i < semaine.size(); i++) {
+            switch (semaine.get(i).getJour()) {
+                case "Lundi":
+                    lundi.add(semaine.get(i));
+                    break;
+                case "Mardi":
+                    mardi.add(semaine.get(i));
+                    break;
+                case "Mercredi":
+                    mercredi.add(semaine.get(i));
+                    break;
+                case "Jeudi":
+                    jeudi.add(semaine.get(i));
+                    break;
+                case "Vendredi":
+                    vendredi.add(semaine.get(i));
+                    break;
+                case "Samedi":
+                    samedi.add(semaine.get(i));
+                    break;
+                case "Dimanche":
+                    dimanche.add(semaine.get(i));
+                    break;
+            }
+        }
+
+        definingLists(lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche);
+    }
+
+    private void definingLists(ArrayList<Stream> lundi, ArrayList<Stream> mardi, ArrayList<Stream> mercredi, ArrayList<Stream> jeudi, ArrayList<Stream> vendredi, ArrayList<Stream> samedi, ArrayList<Stream> dimanche) {
+//        ListView listViewLundi = (ListView) getView().findViewById(R.id.listLundi);
+//        ListView listViewMardi = (ListView) getView().findViewById(R.id.listMardi);
+//        ListView listViewMercredi = (ListView) getView().findViewById(R.id.listMercredi);
+//        ListView listViewJeudi = (ListView) getView().findViewById(R.id.listJeudi);
+//        ListView listViewVendredi = (ListView) getView().findViewById(R.id.listVendredi);
+//        ListView listViewSamedi = (ListView) getView().findViewById(R.id.listSamedi);
+//        ListView listViewDimanche = (ListView) getView().findViewById(R.id.listDimanche);
+
+//        associateListToView(listViewLundi, lundi);
+//        associateListToView(listViewMardi, mardi);
+//        associateListToView(listViewMercredi, mercredi);
+//        associateListToView(listViewJeudi, jeudi);
+//        associateListToView(listViewVendredi, vendredi);
+//        associateListToView(listViewSamedi, samedi);
+//        associateListToView(listViewDimanche, dimanche);
+
+
+        LinearLayout linearLayout = (LinearLayout) getView().findViewById(R.id.layoutHoraire);
+        if (lundi.size() > 0) {
+            addJourToView(linearLayout, "Lundi", lundi);
+        }
+        if (mardi.size() > 0) {
+            addJourToView(linearLayout, "Mardi", mardi);
+        }
+        if (mercredi.size() > 0) {
+            addJourToView(linearLayout, "Mercredi", mercredi);
+        }
+        if (jeudi.size() > 0) {
+            addJourToView(linearLayout, "Jeudi", jeudi);
+        }
+        if (vendredi.size() > 0) {
+            addJourToView(linearLayout, "Vendredi", vendredi);
+        }
+        if (samedi.size() > 0) {
+            addJourToView(linearLayout, "Samedi", samedi);
+        }
+        if (dimanche.size() > 0) {
+            addJourToView(linearLayout, "Dimanche", dimanche);
+        }
+
+
+    }
+
+    private void addJourToView(LinearLayout layout, String jour, ArrayList<Stream> liste) {
+        //Cree le textview
+        TextView txtJour = new TextView(getContext());
+        txtJour.setText(jour);
+        txtJour.setPadding(25, 0, 0, 0);
+        txtJour.setTextSize(30);
+        txtJour.setTextColor(Color.rgb(255, 255, 255));
+        txtJour.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+
+        //Cree le listview
+        ListView listViewLundi = new ListView(getContext());
+        associateListToView(listViewLundi, liste);
+
+
+        //Ajoute les elements au layout
+        try {
+            layout.addView(txtJour);
+            layout.addView(listViewLundi);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void associateListToView(ListView listView, final ArrayList<Stream> liste) {
+        Log.d("--------", "" + liste.toString());
+
 
         listView.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
-                return semaine.size();
+                Log.d("size", "" + liste.size());
+                return liste.size();
             }
 
             @Override
             public Object getItem(int i) {
-                return null;
+                return liste.get(i);
             }
 
             @Override
@@ -167,70 +253,22 @@ public class HoraireFragment extends Fragment {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 if (convertView == null)
-                    convertView = getActivity().getLayoutInflater().inflate(R.layout.listview_jour, parent, false);
+                    convertView = getActivity().getLayoutInflater().inflate(R.layout.listview_streams, parent, false);
 
-                TextView jourText = (TextView) convertView.findViewById(R.id.jourStream);
-                TextView heureText = (TextView) convertView.findViewById(R.id.heureStream);
-                TextView descriptionText = (TextView) convertView.findViewById(R.id.descriptionStream);
-                TextView titreText = (TextView) convertView.findViewById(R.id.titleStream);
-                TextView streamerText = (TextView) convertView.findViewById(R.id.streamerStream);
 
-                jourText.setText(semaine.get(position).getJour());
-                heureText.setText(semaine.get(position).getHeure());
-                descriptionText.setText(semaine.get(position).getDescription());
-                titreText.setText(semaine.get(position).getTitre());
+                Log.d("pos", "" + position);
+                TextView heureText = (TextView) convertView.findViewById(R.id.txtHeure);
+                TextView descriptionText = (TextView) convertView.findViewById(R.id.txtDescription);
+                TextView titreText = (TextView) convertView.findViewById(R.id.txtTitre);
 
-                if (semaine.get(position).getStreamer().isEmpty()) {
-                    streamerText.setText("");
-                } else {
-                    streamerText.setText("avec " + semaine.get(position).getStreamer());
-                }
-
-                View mView = convertView;
-                if (mView == null) {
-                    LayoutInflater vi = (LayoutInflater) mView.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    mView = vi.inflate(R.layout.fragment_horaire, null);
-                }
-
-                listView.setBackgroundColor(Color.WHITE);
-                TextView text = (TextView) mView.findViewById(R.id.jourStream);
-                if (semaine.get(position) != null) {
-                    text.setTextColor(Color.BLACK);
-                    //.setText(semaine.get(position));
-                    //text.setBackgroundColor(Color.BLUE);
-                }
-
-                TextView textHeure = (TextView) mView.findViewById(R.id.heureStream);
-                if (semaine.get(position) != null) {
-                    textHeure.setTextColor(Color.BLACK);
-                    //.setText(semaine.get(position));
-                    //textHeure.setBackgroundColor(Color.BLUE);
-                }
-
-                TextView textDes = (TextView) mView.findViewById(R.id.descriptionStream);
-                if (semaine.get(position) != null) {
-                    textDes.setTextColor(Color.BLACK);
-                    //.setText(semaine.get(position));
-                    //textDes.setBackgroundColor(Color.rgb(135,206,250));
-                    textDes.setBackgroundColor(Color.LTGRAY);
-                }
-
-                TextView textTitle = (TextView) mView.findViewById(R.id.titleStream);
-                if (semaine.get(position) != null) {
-                    textTitle.setTextColor(Color.BLACK);
-                    //.setText(semaine.get(position));
-                    //textTitle.setBackgroundColor(Color.BLUE);
-                }
-
-                TextView textStream = (TextView) mView.findViewById(R.id.streamerStream);
-                if (semaine.get(position) != null) {
-                    textStream.setTextColor(Color.BLACK);
-                    //.setText(semaine.get(position));
-                    //textStream.setBackgroundColor(Color.BLUE);
-                }
+                heureText.setText(liste.get(position).getHeure());
+                descriptionText.setText(liste.get(position).getDescription());
+                titreText.setText(liste.get(position).getTitre());
                 return convertView;
             }
         });
+
+        Log.d("--------", "--------");
     }
 
     public class HoraireFecther extends AsyncTask<Object, Object, ArrayList> {
@@ -242,4 +280,3 @@ public class HoraireFragment extends Fragment {
         }
     }
 }
-
