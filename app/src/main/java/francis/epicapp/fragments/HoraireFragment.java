@@ -1,5 +1,6 @@
 package francis.epicapp.fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -11,11 +12,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -35,8 +39,27 @@ import francis.epicapp.R;
 import francis.epicapp.Stream;
 
 public class HoraireFragment extends Fragment {
+    private class subListView extends ListView {
+        ScrollView s;
+        public subListView(Context context, ScrollView s) {
+            super(context);
+            this.s = s;
+        }
+
+        //de Dedaniya HirenKumar sur stackoverflow
+        //http://stackoverflow.com/a/24629341
+        @Override
+        public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+            int heightMeasureSpec_custom = MeasureSpec.makeMeasureSpec(
+                    Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec_custom);
+            ViewGroup.LayoutParams params = getLayoutParams();
+            params.height = getMeasuredHeight();
+        }
+    }
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mDatabase;
+    ScrollView s;
 
     ArrayList<Stream> semaine = new ArrayList<>();
 
@@ -44,6 +67,7 @@ public class HoraireFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_horaire, container, false);
     }
 
@@ -51,6 +75,7 @@ public class HoraireFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.s = (ScrollView) view.findViewById(R.id.scrollHoraire);
 
         if (InternetStatusListener.isOnline(getContext())) {
             HoraireFecther task = new HoraireFecther();
@@ -215,7 +240,7 @@ public class HoraireFragment extends Fragment {
         txtJour.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
 
         //Cree le listview
-        ListView listViewLundi = new ListView(getContext());
+        ListView listViewLundi = new subListView(getContext(), s);
         associateListToView(listViewLundi, liste);
 
 
@@ -231,7 +256,6 @@ public class HoraireFragment extends Fragment {
 
     private void associateListToView(ListView listView, final ArrayList<Stream> liste) {
         Log.d("--------", "" + liste.toString());
-
 
         listView.setAdapter(new BaseAdapter() {
             @Override
