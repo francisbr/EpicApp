@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -160,6 +161,9 @@ public abstract class YoutubeFetcher {
     }
 
     protected static String urlBuilderForSearch(String query) {
+        try {
+            query = URLEncoder.encode(query, "UTF-8");
+        } catch (Exception e) {}
         String s = "https://www.googleapis.com/youtube/v3/search?key=" + API_KEY + "&channelId=" + CHANNEL_ID + "&part=" + PART + "&type=video&order=date&maxResults=" + MAX_RESULT+"&q="+query;
         Log.d("URL channel", s);
         return s;

@@ -184,23 +184,6 @@ public class HoraireFragment extends Fragment {
     }
 
     private void definingLists(ArrayList<Stream> lundi, ArrayList<Stream> mardi, ArrayList<Stream> mercredi, ArrayList<Stream> jeudi, ArrayList<Stream> vendredi, ArrayList<Stream> samedi, ArrayList<Stream> dimanche) {
-//        ListView listViewLundi = (ListView) getView().findViewById(R.id.listLundi);
-//        ListView listViewMardi = (ListView) getView().findViewById(R.id.listMardi);
-//        ListView listViewMercredi = (ListView) getView().findViewById(R.id.listMercredi);
-//        ListView listViewJeudi = (ListView) getView().findViewById(R.id.listJeudi);
-//        ListView listViewVendredi = (ListView) getView().findViewById(R.id.listVendredi);
-//        ListView listViewSamedi = (ListView) getView().findViewById(R.id.listSamedi);
-//        ListView listViewDimanche = (ListView) getView().findViewById(R.id.listDimanche);
-
-//        associateListToView(listViewLundi, lundi);
-//        associateListToView(listViewMardi, mardi);
-//        associateListToView(listViewMercredi, mercredi);
-//        associateListToView(listViewJeudi, jeudi);
-//        associateListToView(listViewVendredi, vendredi);
-//        associateListToView(listViewSamedi, samedi);
-//        associateListToView(listViewDimanche, dimanche);
-
-
         LinearLayout linearLayout = (LinearLayout) getView().findViewById(R.id.layoutHoraire);
         if (lundi.size() > 0) {
             addJourToView(linearLayout, "Lundi", lundi);
@@ -223,8 +206,6 @@ public class HoraireFragment extends Fragment {
         if (dimanche.size() > 0) {
             addJourToView(linearLayout, "Dimanche", dimanche);
         }
-
-
     }
 
     private void addJourToView(LinearLayout layout, String jour, ArrayList<Stream> liste) {
