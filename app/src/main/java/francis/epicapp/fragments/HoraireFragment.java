@@ -40,12 +40,9 @@ import francis.epicapp.Stream;
 
 public class HoraireFragment extends Fragment {
     private class subListView extends ListView {
-        ScrollView s;
-        public subListView(Context context, ScrollView s) {
+        public subListView(Context context) {
             super(context);
-            this.s = s;
         }
-
         //de Dedaniya HirenKumar sur stackoverflow
         //http://stackoverflow.com/a/24629341
         @Override
@@ -240,7 +237,7 @@ public class HoraireFragment extends Fragment {
         txtJour.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
 
         //Cree le listview
-        ListView listViewLundi = new subListView(getContext(), s);
+        ListView listViewLundi = new subListView(getContext());
         associateListToView(listViewLundi, liste);
 
 
