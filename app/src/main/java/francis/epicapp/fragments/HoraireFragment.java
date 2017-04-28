@@ -10,9 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -32,6 +30,9 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import francis.epicapp.InternetStatusListener;
@@ -138,6 +139,16 @@ public class HoraireFragment extends Fragment {
     }
 
     private void afficheListeSemaine() {
+
+        Collections.sort(semaine, new Comparator<Stream>() {
+            @Override
+            public int compare(Stream p1, Stream p2) {
+
+                return p1.getHeure().compareTo(p2.getHeure());
+            }
+
+        });
+
         ArrayList<Stream> lundi = new ArrayList<>();
         ArrayList<Stream> mardi = new ArrayList<>();
         ArrayList<Stream> mercredi = new ArrayList<>();
@@ -179,6 +190,7 @@ public class HoraireFragment extends Fragment {
                     break;
             }
         }
+
 
         definingLists(lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche);
     }
@@ -230,15 +242,54 @@ public class HoraireFragment extends Fragment {
             e.printStackTrace();
         }
 
+
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+
+        switch (day) {
+            case Calendar.SUNDAY:
+                if (jour.equalsIgnoreCase("Dimanche"))
+                    txtJour.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                break;
+
+            case Calendar.MONDAY:
+                if (jour.equalsIgnoreCase("Lundi"))
+                    txtJour.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                break;
+
+            case Calendar.TUESDAY:
+                if (jour.equalsIgnoreCase("Mardi"))
+                    txtJour.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                break;
+
+            case Calendar.WEDNESDAY:
+                if (jour.equalsIgnoreCase("Mercredi"))
+                    txtJour.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                break;
+
+            case Calendar.THURSDAY:
+                if (jour.equalsIgnoreCase("Jeudi"))
+                    txtJour.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                break;
+
+            case Calendar.FRIDAY:
+                if (jour.equalsIgnoreCase("Vendredi"))
+                    txtJour.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                break;
+
+            case Calendar.SATURDAY:
+                if (jour.equalsIgnoreCase("Samedi"))
+                    txtJour.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                break;
+        }
+
     }
 
     private void associateListToView(ListView listView, final ArrayList<Stream> liste) {
-        Log.d("--------", "" + liste.toString());
 
         listView.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
-                Log.d("size", "" + liste.size());
                 return liste.size();
             }
 
@@ -258,7 +309,6 @@ public class HoraireFragment extends Fragment {
                     convertView = getActivity().getLayoutInflater().inflate(R.layout.listview_streams, parent, false);
 
 
-                Log.d("pos", "" + position);
                 TextView heureText = (TextView) convertView.findViewById(R.id.txtHeure);
                 TextView descriptionText = (TextView) convertView.findViewById(R.id.txtDescription);
                 TextView titreText = (TextView) convertView.findViewById(R.id.txtTitre);
@@ -270,7 +320,6 @@ public class HoraireFragment extends Fragment {
             }
         });
 
-        Log.d("--------", "--------");
     }
 
     public class HoraireFecther extends AsyncTask<Object, Object, ArrayList> {
