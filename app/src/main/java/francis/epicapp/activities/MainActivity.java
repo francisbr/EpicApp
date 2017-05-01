@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     // Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
     // The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
     private ActionBarDrawerToggle drawerToggle;
+    public static int unique_name_id = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +74,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Fragment frag = new SearchFragment();
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.flContent, frag).addToBackStack(null).commit();
-                fragmentManager.beginTransaction().replace(R.id.flContent, frag).commit();
+                String uname = Integer.toString(MainActivity.unique_name_id++);
+                fragmentManager.beginTransaction().replace(R.id.flContent, frag, uname).addToBackStack(uname).commit();
+                fragmentManager.beginTransaction().replace(R.id.flContent, frag, uname).commit();
                 searchBtn.setVisibility(View.GONE);
             }
         });
@@ -194,7 +196,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
+        String uname = Integer.toString(MainActivity.unique_name_id++);
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment, uname).addToBackStack(uname).commit();
     }
 
 
@@ -227,32 +230,38 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         FragmentManager manager = getSupportFragmentManager();
+        manager.enableDebugLogging(true);
         if(manager.getBackStackEntryCount() > 0) {
             super.onBackPressed();
             Fragment newFragment = getTopFragment();
+            if (newFragment != null) {
+                deselectAllDrawerItems();
 
-            deselectAllDrawerItems();
+                Log.d("backpressed", newFragment.getClass().toString());
 
-            if(newFragment instanceof ListVideoFragment){
+                if (newFragment instanceof francis.epicapp.fragments.ListVideoFragment) {
+                    MenuItem item = nvDrawer.getMenu().getItem(0).getSubMenu().getItem(0);
+                    item.setChecked(true);
+                    setTitle(item.getTitle());
+                } else if (newFragment instanceof francis.epicapp.fragments.playlists.PlaylistsFragment) {
+                    MenuItem item = nvDrawer.getMenu().getItem(0).getSubMenu().getItem(1);
+                    item.setChecked(true);
+                    setTitle(item.getTitle());
+                } else if (newFragment instanceof francis.epicapp.fragments.HoraireFragment) {
+                    MenuItem item = nvDrawer.getMenu().getItem(1).getSubMenu().getItem(0);
+                    item.setChecked(true);
+                    setTitle(item.getTitle());
+                } else if (newFragment instanceof francis.epicapp.fragments.StreamFragment) {
+                    MenuItem item = nvDrawer.getMenu().getItem(1).getSubMenu().getItem(1);
+                    item.setChecked(true);
+                    setTitle(item.getTitle());
+                }
+            } else {
                 MenuItem item = nvDrawer.getMenu().getItem(0).getSubMenu().getItem(0);
                 item.setChecked(true);
                 setTitle(item.getTitle());
             }
-            else if(newFragment instanceof PlaylistsFragment){
-                MenuItem item = nvDrawer.getMenu().getItem(0).getSubMenu().getItem(1);
-                item.setChecked(true);
-                setTitle(item.getTitle());
-            }
-            else if(newFragment instanceof HoraireFragment){
-                MenuItem item = nvDrawer.getMenu().getItem(1).getSubMenu().getItem(0);
-                item.setChecked(true);
-                setTitle(item.getTitle());
-            }
-            else if(newFragment instanceof StreamFragment){
-                MenuItem item = nvDrawer.getMenu().getItem(1).getSubMenu().getItem(1);
-                item.setChecked(true);
-                setTitle(item.getTitle());
-            }
+
         } else {
             finish();
         }
@@ -267,11 +276,11 @@ public class MainActivity extends AppCompatActivity {
 
     private Fragment getTopFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.getBackStackEntryCount() < 1) {
+        try {
+            String fragmentName = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
+            return fragmentManager.findFragmentByTag(fragmentName);
+        } catch (Exception e) {
             return null;
         }
-        int id = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getId();
-        Fragment top = fragmentManager.findFragmentById(id);
-        return top;
     }
 }
