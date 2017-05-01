@@ -5,7 +5,8 @@
     tools:context="francis.epicapp.fragments.ListVideoFragment"
     android:animateLayoutChanges="true"
     android:id="@+id/layoutListVideo"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:tag="Toutes les vidéos">
 
     <ProgressBar
         android:id="@+id/listeVideoProgressBar"

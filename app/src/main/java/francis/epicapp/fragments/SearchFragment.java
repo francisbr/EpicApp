@@ -67,8 +67,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public void onPause() {
         super.onPause();
         search.clearFocus();
-        ImageButton searchBtn = (ImageButton) getActivity().findViewById(R.id.searchBtn);
-        searchBtn.setVisibility(View.VISIBLE);
     }
 
     @Override

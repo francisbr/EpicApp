@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -17,6 +19,8 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import francis.epicapp.InternetStatusListener;
 import francis.epicapp.R;
@@ -132,11 +136,13 @@ public class MainActivity extends AppCompatActivity {
         searchBtn.setVisibility(View.GONE);
         Fragment fragment = null;
         Class fragmentClass = null;
+        FragmentManager fm = getSupportFragmentManager();
         switch (menuItem.getItemId()) {
             case R.id.seeAllVid:
                 if (InternetStatusListener.isOnline(getApplicationContext())) {
                     fragmentClass = ListVideoFragment.class;
                     searchBtn.setVisibility(View.VISIBLE);
+                    fragment = fm.findFragmentById(R.id.seeAllVid);
 
                 } else
                     fragmentClass = NoInternetFragment.class;
@@ -144,16 +150,19 @@ public class MainActivity extends AppCompatActivity {
             case R.id.seePlaylists:
                 if (InternetStatusListener.isOnline(getApplicationContext())) {
                     fragmentClass = PlaylistsFragment.class;
+                    fragment = fm.findFragmentById(R.id.seePlaylists);
                 } else
                     fragmentClass = NoInternetFragment.class;
                 break;
 
             case R.id.seeHoraireTwitch:
                 fragmentClass = HoraireFragment.class;
+                fragment = fm.findFragmentById(R.id.seeHoraireTwitch);
                 break;
             case R.id.watchStream:
                 if (InternetStatusListener.isOnline(getApplicationContext())) {
                     fragmentClass = StreamFragment.class;
+                    fragment = fm.findFragmentById(R.id.watchStream);
                 } else
                     fragmentClass = NoInternetFragment.class;
                 break;
@@ -161,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
                 fragmentClass = HoraireFragment.class;
                 break;
         }
+
+        deselectAllDrawerItems();
 
         // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
@@ -178,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack("fragback").commit();
 
     }
 
@@ -211,9 +222,55 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0 ) {
-            getSupportFragmentManager().popBackStack();
+        FragmentManager manager = getSupportFragmentManager();
+        if(manager.getBackStackEntryCount() > 0) {
+            super.onBackPressed();
+            Fragment newFragment = getTopFragment();
+
+            deselectAllDrawerItems();
+
+            if(newFragment instanceof ListVideoFragment){
+                MenuItem item = nvDrawer.getMenu().getItem(0).getSubMenu().getItem(0);
+                item.setChecked(true);
+                setTitle(item.getTitle());
+            }
+            else if(newFragment instanceof PlaylistsFragment){
+                MenuItem item = nvDrawer.getMenu().getItem(0).getSubMenu().getItem(1);
+                item.setChecked(true);
+                setTitle(item.getTitle());
+            }
+            else if(newFragment instanceof HoraireFragment){
+                MenuItem item = nvDrawer.getMenu().getItem(1).getSubMenu().getItem(0);
+                item.setChecked(true);
+                setTitle(item.getTitle());
+            }
+            else if(newFragment instanceof StreamFragment){
+                MenuItem item = nvDrawer.getMenu().getItem(1).getSubMenu().getItem(1);
+                item.setChecked(true);
+                setTitle(item.getTitle());
+            }
+        } else {
+            finish();
         }
+    }
+
+    private void deselectAllDrawerItems(){
+        nvDrawer.getMenu().getItem(0).getSubMenu().getItem(0).setChecked(false);
+        nvDrawer.getMenu().getItem(0).getSubMenu().getItem(1).setChecked(false);
+        nvDrawer.getMenu().getItem(1).getSubMenu().getItem(0).setChecked(false);
+        nvDrawer.getMenu().getItem(1).getSubMenu().getItem(1).setChecked(false);
+    }
+
+    private Fragment getTopFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        List<Fragment> fragentList = fragmentManager.getFragments();
+        Fragment top = null;
+        for (int i = fragentList.size() -1; i>=0 ; i--) {
+            top = (Fragment) fragentList.get(i);
+            if (top != null) {
+                return top;
+            }
+        }
+        return top;
     }
 }
