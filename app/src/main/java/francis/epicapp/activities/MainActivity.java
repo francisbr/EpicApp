@@ -194,8 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack("fragback").commit();
-
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
     }
 
 
@@ -268,14 +267,11 @@ public class MainActivity extends AppCompatActivity {
 
     private Fragment getTopFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        List<Fragment> fragentList = fragmentManager.getFragments();
-        Fragment top = null;
-        for (int i = fragentList.size() -1; i>=0 ; i--) {
-            top = (Fragment) fragentList.get(i);
-            if (top != null) {
-                return top;
-            }
+        if (fragmentManager.getBackStackEntryCount() < 1) {
+            return null;
         }
+        int id = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getId();
+        Fragment top = fragmentManager.findFragmentById(id);
         return top;
     }
 }
