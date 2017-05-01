@@ -58,15 +58,10 @@ public class SinglePlaylistFragment extends Fragment {
         }
     }
     private class EndlessScrollListener implements AbsListView.OnScrollListener {
-        // The minimum number of items to have below your current scroll position
-        // before loading more.
         private int nbAvantReload = 1;
-        // The current offset index of data you have loaded
-        // The total number of items in the dataset after the last load
         private int previousTotalItemCount = 0;
-        // True if we are still waiting for the last set of data to load.
         private boolean loading = true;
-
+        //res contient des infos passées par l'asynctask, par exemple le nextpagetoken
         private Object[] res;
 
         public EndlessScrollListener(int visibleThreshold, Object[] res) {
@@ -79,31 +74,29 @@ public class SinglePlaylistFragment extends Fragment {
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
         {
             Log.d("PlaylistOnScroll", ""+previousTotalItemCount+", "+totalItemCount+", "+loading);
-            // If the total item count is zero and the previous isn't, assume the
-            // list is invalidated and should be reset back to initial state
+            //si il y a moins d'items qu'avant, l'état est inconsistant, on lance un chargement
+            //pour avoir des données consistantes
             if (totalItemCount < previousTotalItemCount) {
                 this.previousTotalItemCount = totalItemCount;
                 if (totalItemCount == 0) { this.loading = true; }
             }
-            // If it's still loading, we check to see if the dataset count has
-            // changed, if so we conclude it has finished loading and update the current page
-            // number and total item count.
+
+            //si on charge mais que le nombre d'items a augmenté, on a fini le asynctask
+            //remarquez si on donnait une référence à cet objet au asynctask,
+            //il pourrait nous signaler a la place
             if (loading && (totalItemCount > previousTotalItemCount)) {
                 loading = false;
                 previousTotalItemCount = totalItemCount;
             }
 
-            // If it isn't currently loading, we check to see if we have breached
-            // the visibleThreshold and need to reload more data.
-            // If we do need to reload some more data, we execute onLoadMore to fetch the data.
+            //si on ne charge pas et que nextpagetoken != null, alors on regarde si il faut charger
             if (!loading && res[0] != null && (firstVisibleItem + visibleItemCount + nbAvantReload) >= totalItemCount ) {
                 Log.d("PlaylistOnScroll", "Hit load more nextpagetoken="+(String) res[0]+", "+firstVisibleItem+", "+visibleItemCount+", "+nbAvantReload+", "+totalItemCount);
                 loading = onLoadMore(totalItemCount);
             }
         }
 
-        // Defines the process for actually loading more data based on page
-        // Returns true if more data is being loaded; returns false if there is no more data to load.
+        // lance un chargeur
         public boolean onLoadMore(int totalItemsCount) {
             try {
                 new LoadMore(playlistId,res).execute();
