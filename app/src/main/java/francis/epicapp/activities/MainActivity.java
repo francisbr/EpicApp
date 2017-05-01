@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 String uname = Integer.toString(MainActivity.unique_name_id++);
                 fragmentManager.beginTransaction().replace(R.id.flContent, frag, uname).addToBackStack(uname).commit();
-                fragmentManager.beginTransaction().replace(R.id.flContent, frag, uname).commit();
                 searchBtn.setVisibility(View.GONE);
             }
         });
