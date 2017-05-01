@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,15 +19,13 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
 import francis.epicapp.InternetStatusListener;
 import francis.epicapp.R;
+import francis.epicapp.fragments.HoraireFragment;
 import francis.epicapp.fragments.ListVideoFragment;
 import francis.epicapp.fragments.NoInternetFragment;
 import francis.epicapp.fragments.SearchFragment;
 import francis.epicapp.fragments.StreamFragment;
-import francis.epicapp.fragments.HoraireFragment;
 import francis.epicapp.fragments.playlists.PlaylistsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -233,9 +230,9 @@ public class MainActivity extends AppCompatActivity {
         manager.enableDebugLogging(true);
         if(manager.getBackStackEntryCount() > 0) {
             super.onBackPressed();
+            deselectAllDrawerItems();
             Fragment newFragment = getTopFragment();
             if (newFragment != null) {
-                deselectAllDrawerItems();
 
                 Log.d("backpressed", newFragment.getClass().toString());
 
