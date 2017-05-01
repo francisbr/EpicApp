@@ -133,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
      */
     public void selectDrawerItem(MenuItem menuItem) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
+        if (menuItem.isChecked()) {
+            //ne fait rien pour sauver de la bande passante!
+            mDrawer.closeDrawers();
+            return;
+        }
         searchBtn.setVisibility(View.GONE);
         Fragment fragment = null;
         Class fragmentClass = null;
